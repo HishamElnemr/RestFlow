@@ -9,11 +9,13 @@ import '../../domain/entities/auth_response_entity.dart';
 import '../../domain/entities/login_request_entity.dart';
 import '../../domain/entities/refresh_token_request_entity.dart';
 import '../../domain/entities/register_request_entity.dart';
+import '../../domain/entities/resend_otp_request_entity.dart';
 import '../../domain/entities/verify_otp_request_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../models/login_request_model.dart';
 import '../models/refresh_token_request_model.dart';
 import '../models/register_request_model.dart';
+import '../models/resend_otp_request_model.dart';
 import '../models/verify_otp_request_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -21,7 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
     AuthApiService? apiService,
     SecureStorageService? secureStorage,
   }) : _apiService = apiService ?? AuthApiService(Dio()),
-      _secureStorage = secureStorage ?? SecureStorageService();
+       _secureStorage = secureStorage ?? SecureStorageService();
 
   final AuthApiService _apiService;
   final SecureStorageService _secureStorage;
@@ -47,6 +49,20 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _apiService.verifyOtp(
         VerifyOtpRequestModel.fromEntity(request),
+      );
+      return Right(response.toEntity());
+    } catch (error) {
+      return Left(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, AuthResponseEntity>> resendOtp(
+    ResendOtpRequestEntity request,
+  ) async {
+    try {
+      final response = await _apiService.resendOtp(
+        ResendOtpRequestModel.fromEntity(request),
       );
       return Right(response.toEntity());
     } catch (error) {
