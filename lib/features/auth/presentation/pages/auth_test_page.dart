@@ -327,7 +327,7 @@ class _AuthTestPageState extends State<AuthTestPage> {
         Text(label, style: AppStyles.label(context)),
         const SizedBox(height: 6),
         DropdownButtonFormField<ChannelType>(
-          value: value,
+          initialValue: value,
           items: ChannelType.values
               .map(
                 (type) => DropdownMenuItem(
