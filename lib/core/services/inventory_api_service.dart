@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-
 import '../../features/inventory/data/models/create_inventory_category_request_model.dart';
 import '../../features/inventory/data/models/create_inventory_item_request_model.dart';
 import '../../features/inventory/data/models/create_stock_movement_request_model.dart';
@@ -13,7 +12,6 @@ import '../../features/inventory/data/models/stock_movement_model.dart';
 import '../../features/inventory/data/models/update_inventory_category_request_model.dart';
 import '../../features/inventory/data/models/update_inventory_item_request_model.dart';
 import '../constants/api_constants.dart';
-
 part 'inventory_api_service.g.dart';
 
 @RestApi(baseUrl: ApiConstants.baseUrl)
