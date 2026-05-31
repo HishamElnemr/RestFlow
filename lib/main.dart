@@ -8,6 +8,10 @@ import 'features/auth/presentation/cubit/login/login_cubit.dart';
 import 'features/auth/presentation/cubit/otp/otp_cubit.dart';
 import 'features/auth/presentation/cubit/register/register_cubit.dart';
 import 'features/customers/presentation/cubit/customers/customers_cubit.dart';
+import 'features/inventory/presentation/cubit/inventory_categories/inventory_categories_cubit.dart';
+import 'features/inventory/presentation/cubit/inventory_items/inventory_items_cubit.dart';
+import 'features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
+import 'features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
 
 void main() {
   setupGetIt();
@@ -25,6 +29,16 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterCubit>(create: (_) => getIt<RegisterCubit>()),
         BlocProvider<OtpCubit>(create: (_) => getIt<OtpCubit>()),
         BlocProvider<CustomersCubit>(create: (_) => getIt<CustomersCubit>()),
+        BlocProvider<InventoryItemsCubit>(
+          create: (_) => getIt<InventoryItemsCubit>(),
+        ),
+        BlocProvider<InventoryCategoriesCubit>(
+          create: (_) => getIt<InventoryCategoriesCubit>(),
+        ),
+        BlocProvider<StockMovementsCubit>(
+          create: (_) => getIt<StockMovementsCubit>(),
+        ),
+        BlocProvider<LowStockCubit>(create: (_) => getIt<LowStockCubit>()),
       ],
       child: MaterialApp(
         title: 'Restflow Auth',
@@ -42,7 +56,7 @@ class MyApp extends StatelessWidget {
             onSurfaceVariant: Color(0xFF5B5247),
           ),
         ),
-        initialRoute: RoutesName.customersTest,
+        initialRoute: RoutesName.inventoryTest,
         onGenerateRoute: AppRoutes.generateRoute,
       ),
     );

@@ -9,9 +9,16 @@ import '../../features/auth/presentation/cubit/register/register_cubit.dart';
 import '../../features/customers/data/repositories/customers_repository_impl.dart';
 import '../../features/customers/domain/repositories/customers_repository.dart';
 import '../../features/customers/presentation/cubit/customers/customers_cubit.dart';
+import '../../features/inventory/data/repositories/inventory_repository_impl.dart';
+import '../../features/inventory/domain/repositories/inventory_repository.dart';
+import '../../features/inventory/presentation/cubit/inventory_categories/inventory_categories_cubit.dart';
+import '../../features/inventory/presentation/cubit/inventory_items/inventory_items_cubit.dart';
+import '../../features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
+import '../../features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
 import '../constants/api_constants.dart';
 import 'auth_api_service.dart';
 import 'customers_api_service.dart';
+import 'inventory_api_service.dart';
 import 'secure_storage_service.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -29,6 +36,10 @@ void setupGetIt() {
     () => CustomersApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
+  getIt.registerLazySingleton<InventoryApiService>(
+    () => InventoryApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
+  );
+
   getIt.registerLazySingleton<SecureStorageService>(
     () => SecureStorageService(),
   );
@@ -44,6 +55,10 @@ void setupGetIt() {
     () => CustomersRepositoryImpl(apiService: getIt<CustomersApiService>()),
   );
 
+  getIt.registerLazySingleton<InventoryRepository>(
+    () => InventoryRepositoryImpl(apiService: getIt<InventoryApiService>()),
+  );
+
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt<AuthRepository>()));
 
   getIt.registerFactory<RegisterCubit>(
@@ -54,5 +69,21 @@ void setupGetIt() {
 
   getIt.registerFactory<CustomersCubit>(
     () => CustomersCubit(getIt<CustomersRepository>()),
+  );
+
+  getIt.registerFactory<InventoryItemsCubit>(
+    () => InventoryItemsCubit(getIt<InventoryRepository>()),
+  );
+
+  getIt.registerFactory<InventoryCategoriesCubit>(
+    () => InventoryCategoriesCubit(getIt<InventoryRepository>()),
+  );
+
+  getIt.registerFactory<StockMovementsCubit>(
+    () => StockMovementsCubit(getIt<InventoryRepository>()),
+  );
+
+  getIt.registerFactory<LowStockCubit>(
+    () => LowStockCubit(getIt<InventoryRepository>()),
   );
 }
