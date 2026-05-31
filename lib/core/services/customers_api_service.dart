@@ -1,13 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-
 import '../../features/customers/data/models/create_customer_request_model.dart';
 import '../../features/customers/data/models/customer_model.dart';
 import '../../features/customers/data/models/customer_response_model.dart';
 import '../../features/customers/data/models/update_customer_request_model.dart';
 import '../../features/customers/data/models/update_customer_status_request_model.dart';
 import '../constants/api_constants.dart';
-
 part 'customers_api_service.g.dart';
 
 @RestApi(baseUrl: ApiConstants.baseUrl)

@@ -10,10 +10,13 @@ class CustomerResponseModel extends CustomerResponseEntity {
   });
 
   CustomerResponseEntity toEntity() {
+    final mappedData = data is CustomerModel
+        ? (data as CustomerModel).toEntity()
+        : data;
     return CustomerResponseEntity(
       isSuccess: isSuccess,
       message: message,
-      data: data,
+      data: mappedData,
     );
   }
 

@@ -41,6 +41,10 @@ class ErrorHandler {
           message: 'No internet connection.',
         );
       case DioExceptionType.badResponse:
+        final message = _extractMessage(error.response?.data);
+        if (message != null && message.isNotEmpty) {
+          return AppFailure(type: FailureType.server, message: message);
+        }
         return const AppFailure(
           type: FailureType.server,
           message: 'Unexpected server response.',
@@ -53,5 +57,22 @@ class ErrorHandler {
           message: error.message ?? 'Unexpected error occurred.',
         );
     }
+  }
+
+  static String? _extractMessage(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      final message = data['message']?.toString();
+      if (message != null && message.isNotEmpty) {
+        return message;
+      }
+      final errors = data['errors'];
+      if (errors is List && errors.isNotEmpty) {
+        return errors.first.toString();
+      }
+    }
+    if (data is String) {
+      return data;
+    }
+    return null;
   }
 }

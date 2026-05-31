@@ -7,6 +7,7 @@ import 'core/services/getit_services.dart';
 import 'features/auth/presentation/cubit/login/login_cubit.dart';
 import 'features/auth/presentation/cubit/otp/otp_cubit.dart';
 import 'features/auth/presentation/cubit/register/register_cubit.dart';
+import 'features/customers/presentation/cubit/customers/customers_cubit.dart';
 
 void main() {
   setupGetIt();
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginCubit>(create: (_) => getIt<LoginCubit>()),
         BlocProvider<RegisterCubit>(create: (_) => getIt<RegisterCubit>()),
         BlocProvider<OtpCubit>(create: (_) => getIt<OtpCubit>()),
+        BlocProvider<CustomersCubit>(create: (_) => getIt<CustomersCubit>()),
       ],
       child: MaterialApp(
         title: 'Restflow Auth',
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
             onSurfaceVariant: Color(0xFF5B5247),
           ),
         ),
-        initialRoute: RoutesName.authTest,
+        initialRoute: RoutesName.customersTest,
         onGenerateRoute: AppRoutes.generateRoute,
       ),
     );
