@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/routes/app_routes.dart';
 import 'core/routes/routes_name.dart';
+import 'core/services/fcm_notification_service.dart';
 import 'core/services/getit_services.dart';
 import 'features/auth/presentation/cubit/login/login_cubit.dart';
 import 'features/auth/presentation/cubit/otp/otp_cubit.dart';
@@ -13,9 +15,18 @@ import 'features/inventory/presentation/cubit/inventory_items/inventory_items_cu
 import 'features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
 import 'features/inventory/presentation/cubit/low_stock_count/low_stock_count_cubit.dart';
 import 'features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
+import 'firebase_options.dart';
 
-void main() {
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   setupGetIt();
+  await FcmNotificationService.instance.initialize(
+    messengerKey: scaffoldMessengerKey,
+  );
   runApp(const MyApp());
 }
 
@@ -47,6 +58,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Restflow Auth',
         debugShowCheckedModeBanner: false,
+        scaffoldMessengerKey: scaffoldMessengerKey,
         theme: ThemeData(
           brightness: Brightness.light,
           fontFamily: 'Georgia',
