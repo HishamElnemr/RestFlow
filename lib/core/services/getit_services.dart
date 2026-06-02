@@ -14,6 +14,7 @@ import '../../features/inventory/domain/repositories/inventory_repository.dart';
 import '../../features/inventory/presentation/cubit/inventory_categories/inventory_categories_cubit.dart';
 import '../../features/inventory/presentation/cubit/inventory_items/inventory_items_cubit.dart';
 import '../../features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
+import '../../features/inventory/presentation/cubit/low_stock_count/low_stock_count_cubit.dart';
 import '../../features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
 import '../constants/api_constants.dart';
 import 'auth_api_service.dart';
@@ -85,5 +86,9 @@ void setupGetIt() {
 
   getIt.registerFactory<LowStockCubit>(
     () => LowStockCubit(getIt<InventoryRepository>()),
+  );
+
+  getIt.registerFactory<LowStockCountCubit>(
+    () => LowStockCountCubit(getIt<InventoryRepository>()),
   );
 }

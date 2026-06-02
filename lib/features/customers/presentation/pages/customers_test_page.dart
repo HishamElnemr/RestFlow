@@ -476,7 +476,7 @@ class _CustomersTestPageState extends State<CustomersTestPage> {
         Text(label, style: AppStyles.label(context)),
         const SizedBox(height: 6),
         DropdownButtonFormField<CustomerStatus?>(
-          value: value,
+          initialValue: value,
           items: options
               .map(
                 (status) => DropdownMenuItem(

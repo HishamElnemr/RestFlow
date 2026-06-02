@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_styles.dart';
+import '../../../../core/widgets/notification_bell.dart';
 import '../../domain/entities/create_inventory_category_request_entity.dart';
 import '../../domain/entities/create_inventory_item_request_entity.dart';
 import '../../domain/entities/create_stock_movement_request_entity.dart';
@@ -69,7 +70,6 @@ class _InventoryTestPageState extends State<InventoryTestPage> {
     _createMinimumController.dispose();
     _createCostController.dispose();
     _updateIdController.dispose();
-    _updateCategoryIdController.dispose();
     _updateNameController.dispose();
     _updateUnitController.dispose();
     _updateMinimumController.dispose();
@@ -93,6 +93,7 @@ class _InventoryTestPageState extends State<InventoryTestPage> {
       appBar: AppBar(
         title: const Text('Inventory Sandbox'),
         backgroundColor: colorScheme.surface,
+        actions: const [NotificationBell()],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -827,7 +828,7 @@ class _InventoryTestPageState extends State<InventoryTestPage> {
         Text('Transaction type', style: AppStyles.label(context)),
         const SizedBox(height: 6),
         DropdownButtonFormField<TransactionType>(
-          value: _movementType,
+          initialValue: _movementType,
           items: TransactionType.values
               .map(
                 (type) => DropdownMenuItem(

@@ -11,6 +11,7 @@ import 'features/customers/presentation/cubit/customers/customers_cubit.dart';
 import 'features/inventory/presentation/cubit/inventory_categories/inventory_categories_cubit.dart';
 import 'features/inventory/presentation/cubit/inventory_items/inventory_items_cubit.dart';
 import 'features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
+import 'features/inventory/presentation/cubit/low_stock_count/low_stock_count_cubit.dart';
 import 'features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
 
 void main() {
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
           create: (_) => getIt<StockMovementsCubit>(),
         ),
         BlocProvider<LowStockCubit>(create: (_) => getIt<LowStockCubit>()),
+        BlocProvider<LowStockCountCubit>(
+          create: (_) => getIt<LowStockCountCubit>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Restflow Auth',
