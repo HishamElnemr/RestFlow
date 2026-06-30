@@ -7,6 +7,11 @@ import '../../features/auth/data/models/refresh_token_request_model.dart';
 import '../../features/auth/data/models/register_request_model.dart';
 import '../../features/auth/data/models/resend_otp_request_model.dart';
 import '../../features/auth/data/models/verify_otp_request_model.dart';
+import '../../features/auth/data/models/forgot_password_request_model.dart';
+import '../../features/auth/data/models/reset_password_request_model.dart';
+import '../../features/auth/data/models/logout_request_model.dart';
+import '../../features/auth/data/models/change_password_request_model.dart';
+import '../../features/auth/data/models/user_profile_result_model.dart';
 import '../constants/api_constants.dart';
 
 part 'auth_api_service.g.dart';
@@ -31,4 +36,28 @@ abstract class AuthApiService {
   Future<AuthResponseModel> refreshToken(
     @Body() RefreshTokenRequestModel request,
   );
+
+  @POST('/api/Auth/forgot-password')
+  Future<AuthResponseModel> forgotPassword(
+    @Body() ForgotPasswordRequestModel request,
+  );
+
+  @POST('/api/Auth/reset-password')
+  Future<AuthResponseModel> resetPassword(
+    @Body() ResetPasswordRequestModel request,
+  );
+
+  @POST('/api/Auth/logout')
+  Future<AuthResponseModel> logout(
+    @Body() LogoutRequestModel request,
+  );
+
+  @GET('/api/Auth/me')
+  Future<UserProfileResultModel> getMe();
+
+  @POST('/api/Auth/change-password')
+  Future<AuthResponseModel> changePassword(
+    @Body() ChangePasswordRequestModel request,
+  );
 }
+
