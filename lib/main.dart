@@ -51,19 +51,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Restflow',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          brightness: Brightness.light,
-          fontFamily: 'Georgia',
-          colorScheme: const ColorScheme.light(
-            primary: Color(0xFF0F6F5C),
-            secondary: Color(0xFFF4A261),
-            surface: Color(0xFFF7F3EB),
-            surfaceContainerHighest: Color(0xFFEDE6D9),
-            outlineVariant: Color(0xFFDED4C6),
-            onSurface: Color(0xFF1B1B1B),
-            onSurfaceVariant: Color(0xFF5B5247),
-          ),
-        ),
+        theme: ThemeData(),
         initialRoute: RoutesName.inventoryTest,
         onGenerateRoute: AppRoutes.generateRoute,
       ),
