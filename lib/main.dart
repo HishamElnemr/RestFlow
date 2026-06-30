@@ -13,6 +13,7 @@ import 'features/inventory/presentation/cubit/inventory_items/inventory_items_cu
 import 'features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
 import 'features/inventory/presentation/cubit/low_stock_count/low_stock_count_cubit.dart';
 import 'features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
+import 'features/settings/presentation/cubit/notification_settings/notification_settings_cubit.dart';
 
 void main() {
   setupGetIt();
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<LowStockCubit>(create: (_) => getIt<LowStockCubit>()),
         BlocProvider<LowStockCountCubit>(
           create: (_) => getIt<LowStockCountCubit>(),
+        ),
+        BlocProvider<NotificationSettingsCubit>(
+          create: (_) => getIt<NotificationSettingsCubit>(),
         ),
       ],
       child: MaterialApp(

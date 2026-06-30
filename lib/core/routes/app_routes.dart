@@ -4,6 +4,7 @@ import '../../features/auth/presentation/pages/auth_test_page.dart';
 import '../../features/customers/presentation/pages/customers_test_page.dart';
 import '../../features/inventory/presentation/pages/inventory_test_page.dart';
 import '../../features/inventory/presentation/pages/low_stock_alerts_page.dart';
+import '../../features/settings/presentation/pages/notification_settings_page.dart';
 import 'routes_name.dart';
 
 class AppRoutes {
@@ -27,6 +28,11 @@ class AppRoutes {
       case RoutesName.lowStockAlerts:
         return MaterialPageRoute(
           builder: (_) => const LowStockAlertsPage(),
+          settings: settings,
+        );
+      case RoutesName.notificationSettings:
+        return MaterialPageRoute(
+          builder: (_) => const NotificationSettingsPage(),
           settings: settings,
         );
       default:

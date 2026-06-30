@@ -16,19 +16,33 @@ import '../../features/inventory/presentation/cubit/inventory_items/inventory_it
 import '../../features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
 import '../../features/inventory/presentation/cubit/low_stock_count/low_stock_count_cubit.dart';
 import '../../features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
+import '../../features/settings/data/repositories/settings_repository_impl.dart';
+import '../../features/settings/domain/repositories/settings_repository.dart';
+import '../../features/settings/presentation/cubit/notification_settings/notification_settings_cubit.dart';
 import '../constants/api_constants.dart';
 import 'auth_api_service.dart';
+import 'auth_interceptor.dart';
 import 'customers_api_service.dart';
 import 'inventory_api_service.dart';
 import 'secure_storage_service.dart';
+import 'settings_api_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
 void setupGetIt() {
-  getIt.registerLazySingleton<Dio>(
-    () => Dio(BaseOptions(baseUrl: ApiConstants.baseUrl)),
+  // ── Storage ──────────────────────────────────────────────────────────────
+  getIt.registerLazySingleton<SecureStorageService>(
+    () => SecureStorageService(),
   );
 
+  // ── Network (Dio + Auth Interceptor) ─────────────────────────────────────
+  getIt.registerLazySingleton<Dio>(() {
+    final dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
+    dio.interceptors.add(AuthInterceptor(getIt<SecureStorageService>()));
+    return dio;
+  });
+
+  // ── API Services ──────────────────────────────────────────────────────────
   getIt.registerLazySingleton<AuthApiService>(
     () => AuthApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
@@ -41,10 +55,11 @@ void setupGetIt() {
     () => InventoryApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
-  getIt.registerLazySingleton<SecureStorageService>(
-    () => SecureStorageService(),
+  getIt.registerLazySingleton<SettingsApiService>(
+    () => SettingsApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
+  // ── Repositories ──────────────────────────────────────────────────────────
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       apiService: getIt<AuthApiService>(),
@@ -60,6 +75,11 @@ void setupGetIt() {
     () => InventoryRepositoryImpl(apiService: getIt<InventoryApiService>()),
   );
 
+  getIt.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(apiService: getIt<SettingsApiService>()),
+  );
+
+  // ── Cubits / ViewModels ───────────────────────────────────────────────────
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt<AuthRepository>()));
 
   getIt.registerFactory<RegisterCubit>(
@@ -90,5 +110,9 @@ void setupGetIt() {
 
   getIt.registerFactory<LowStockCountCubit>(
     () => LowStockCountCubit(getIt<InventoryRepository>()),
+  );
+
+  getIt.registerFactory<NotificationSettingsCubit>(
+    () => NotificationSettingsCubit(getIt<SettingsRepository>()),
   );
 }
