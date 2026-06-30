@@ -6,6 +6,10 @@ import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/presentation/cubit/login/login_cubit.dart';
 import '../../features/auth/presentation/cubit/otp/otp_cubit.dart';
 import '../../features/auth/presentation/cubit/register/register_cubit.dart';
+import '../../features/auth/presentation/cubit/forgot_password/forgot_password_cubit.dart';
+import '../../features/auth/presentation/cubit/reset_password/reset_password_cubit.dart';
+import '../../features/auth/presentation/cubit/change_password/change_password_cubit.dart';
+import '../../features/auth/presentation/cubit/auth_session/auth_session_cubit.dart';
 import '../../features/customers/data/repositories/customers_repository_impl.dart';
 import '../../features/customers/domain/repositories/customers_repository.dart';
 import '../../features/customers/presentation/cubit/customers/customers_cubit.dart';
@@ -19,6 +23,8 @@ import '../../features/inventory/presentation/cubit/stock_movements/stock_moveme
 import '../../features/settings/data/repositories/settings_repository_impl.dart';
 import '../../features/settings/domain/repositories/settings_repository.dart';
 import '../../features/settings/presentation/cubit/notification_settings/notification_settings_cubit.dart';
+import '../../features/settings/presentation/cubit/user_profile_settings/user_profile_settings_cubit.dart';
+import '../../features/settings/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
 import '../../features/reports/data/repositories/reports_repository_impl.dart';
 import '../../features/reports/domain/repositories/reports_repository.dart';
 import '../../features/reports/presentation/cubit/reports/reports_cubit.dart';
@@ -100,6 +106,22 @@ void setupGetIt() {
 
   getIt.registerFactory<OtpCubit>(() => OtpCubit(getIt<AuthRepository>()));
 
+  getIt.registerFactory<ForgotPasswordCubit>(
+    () => ForgotPasswordCubit(getIt<AuthRepository>()),
+  );
+
+  getIt.registerFactory<ResetPasswordCubit>(
+    () => ResetPasswordCubit(getIt<AuthRepository>()),
+  );
+
+  getIt.registerFactory<ChangePasswordCubit>(
+    () => ChangePasswordCubit(getIt<AuthRepository>()),
+  );
+
+  getIt.registerFactory<AuthSessionCubit>(
+    () => AuthSessionCubit(getIt<AuthRepository>()),
+  );
+
   getIt.registerFactory<CustomersCubit>(
     () => CustomersCubit(getIt<CustomersRepository>()),
   );
@@ -126,6 +148,14 @@ void setupGetIt() {
 
   getIt.registerFactory<NotificationSettingsCubit>(
     () => NotificationSettingsCubit(getIt<SettingsRepository>()),
+  );
+
+  getIt.registerFactory<UserProfileSettingsCubit>(
+    () => UserProfileSettingsCubit(getIt<SettingsRepository>()),
+  );
+
+  getIt.registerFactory<RestaurantSettingsCubit>(
+    () => RestaurantSettingsCubit(getIt<SettingsRepository>()),
   );
 
   getIt.registerFactory<ReportsCubit>(
