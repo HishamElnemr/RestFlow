@@ -19,11 +19,15 @@ import '../../features/inventory/presentation/cubit/stock_movements/stock_moveme
 import '../../features/settings/data/repositories/settings_repository_impl.dart';
 import '../../features/settings/domain/repositories/settings_repository.dart';
 import '../../features/settings/presentation/cubit/notification_settings/notification_settings_cubit.dart';
+import '../../features/reports/data/repositories/reports_repository_impl.dart';
+import '../../features/reports/domain/repositories/reports_repository.dart';
+import '../../features/reports/presentation/cubit/reports/reports_cubit.dart';
 import '../constants/api_constants.dart';
 import 'auth_api_service.dart';
 import 'auth_interceptor.dart';
 import 'customers_api_service.dart';
 import 'inventory_api_service.dart';
+import 'reports_api_service.dart';
 import 'secure_storage_service.dart';
 import 'settings_api_service.dart';
 
@@ -59,6 +63,10 @@ void setupGetIt() {
     () => SettingsApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
+  getIt.registerLazySingleton<ReportsApiService>(
+    () => ReportsApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
+  );
+
   // ── Repositories ──────────────────────────────────────────────────────────
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -77,6 +85,10 @@ void setupGetIt() {
 
   getIt.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(apiService: getIt<SettingsApiService>()),
+  );
+
+  getIt.registerLazySingleton<ReportsRepository>(
+    () => ReportsRepositoryImpl(apiService: getIt<ReportsApiService>()),
   );
 
   // ── Cubits / ViewModels ───────────────────────────────────────────────────
@@ -114,5 +126,9 @@ void setupGetIt() {
 
   getIt.registerFactory<NotificationSettingsCubit>(
     () => NotificationSettingsCubit(getIt<SettingsRepository>()),
+  );
+
+  getIt.registerFactory<ReportsCubit>(
+    () => ReportsCubit(getIt<ReportsRepository>()),
   );
 }
