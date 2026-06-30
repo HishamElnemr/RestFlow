@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Restflow Auth',
+        title: 'Restflow',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.light,

@@ -89,7 +89,7 @@ class _LowStockAlertsPageState extends State<LowStockAlertsPage> {
           ),
         );
       },
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemCount: alerts.length,
     );
   }

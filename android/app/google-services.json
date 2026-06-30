@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "449872052003",
+    "project_id": "restflow-b1298",
+    "storage_bucket": "restflow-b1298.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449872052003:android:7162fe29e724bed26d5696",
+        "android_client_info": {
+          "package_name": "com.example.rest_flow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVIPk4mM-GdrLdR0WyK8JwhPqfcqNBvOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
