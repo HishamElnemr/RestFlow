@@ -31,8 +31,7 @@ We utilize the `get_it` package for service location and dependency injection.
 ## 🎨 4. Theming, UI, Localization and Assets
 - **Localization**: The app currently supports **English (en) ONLY**. 
 - **Theming**: The app operates in **Light Mode ONLY**. Do not write logic for Dark Mode.
-- **Colors & Typography**: Always use context-based theme colors (`Theme.of(context)`) and predefined styles from `lib/core/utils/app_styles.dart`.
-- **Images & Assets**: Always reference assets via the `lib/core/utils/app_images.dart` class.
+- **Colors & Typography**: Always use colors `lib/core/theme/app_colors.dart` and predefined styles from `lib/core/utils/app_styles.dart`.
 
 ## 🌐 5. Networking, API & Security Rules
 - **Retrofit**: API clients should be generated using `retrofit`.
