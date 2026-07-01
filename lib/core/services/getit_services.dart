@@ -28,11 +28,17 @@ import '../../features/settings/presentation/cubit/restaurant_settings/restauran
 import '../../features/reports/data/repositories/reports_repository_impl.dart';
 import '../../features/reports/domain/repositories/reports_repository.dart';
 import '../../features/reports/presentation/cubit/reports/reports_cubit.dart';
+import '../../features/menu/data/repositories/menu_repository_impl.dart';
+import '../../features/menu/domain/repositories/menu_repository.dart';
+import '../../features/menu/presentation/cubit/menu_categories/menu_categories_cubit.dart';
+import '../../features/menu/presentation/cubit/menu_products/menu_products_cubit.dart';
+import '../../features/menu/presentation/cubit/product_ingredients/product_ingredients_cubit.dart';
 import '../constants/api_constants.dart';
 import 'auth_api_service.dart';
 import 'auth_interceptor.dart';
 import 'customers_api_service.dart';
 import 'inventory_api_service.dart';
+import 'menu_api_service.dart';
 import 'reports_api_service.dart';
 import 'secure_storage_service.dart';
 import 'settings_api_service.dart';
@@ -160,5 +166,26 @@ void setupGetIt() {
 
   getIt.registerFactory<ReportsCubit>(
     () => ReportsCubit(getIt<ReportsRepository>()),
+  );
+
+  // ── Menu ──────────────────────────────────────────────────────────────────
+  getIt.registerLazySingleton<MenuApiService>(
+    () => MenuApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
+  );
+
+  getIt.registerLazySingleton<MenuRepository>(
+    () => MenuRepositoryImpl(apiService: getIt<MenuApiService>()),
+  );
+
+  getIt.registerFactory<MenuCategoriesCubit>(
+    () => MenuCategoriesCubit(getIt<MenuRepository>()),
+  );
+
+  getIt.registerFactory<MenuProductsCubit>(
+    () => MenuProductsCubit(getIt<MenuRepository>()),
+  );
+
+  getIt.registerFactory<ProductIngredientsCubit>(
+    () => ProductIngredientsCubit(getIt<MenuRepository>()),
   );
 }
