@@ -18,7 +18,7 @@ class SplashPage extends StatelessWidget {
               if (context.mounted) {
                 Navigator.pushReplacementNamed(
                   context,
-                  RoutesName.inventoryTest,
+                  RoutesName.dashboard,
                 );
               }
             });

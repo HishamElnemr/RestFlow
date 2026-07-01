@@ -31,7 +31,7 @@ class MenuRepositoryImpl implements MenuRepository {
 
   @override
   Future<Either<AppFailure, List<MenuCategoryListEntity>>>
-  getMenuCategories() async {
+      getMenuCategories() async {
     try {
       final List<MenuCategoryListEntity> response =
           await _apiService.getMenuCategories();
@@ -153,7 +153,7 @@ class MenuRepositoryImpl implements MenuRepository {
 
   @override
   Future<Either<AppFailure, List<ProductIngredientEntity>>>
-  getProductIngredients(String productId) async {
+      getProductIngredients(String productId) async {
     try {
       final List<ProductIngredientModel> response =
           await _apiService.getProductIngredients(productId);
