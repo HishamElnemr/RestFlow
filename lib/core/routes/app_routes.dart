@@ -5,11 +5,17 @@ import '../../features/customers/presentation/pages/customers_test_page.dart';
 import '../../features/inventory/presentation/pages/inventory_test_page.dart';
 import '../../features/inventory/presentation/pages/low_stock_alerts_page.dart';
 import '../../features/settings/presentation/pages/notification_settings_page.dart';
+import '../../features/splash/presentation/pages/splash_page.dart';
 import 'routes_name.dart';
 
 class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RoutesName.splash:
+        return MaterialPageRoute(
+          builder: (_) => const SplashPage(),
+          settings: settings,
+        );
       case RoutesName.authTest:
         return MaterialPageRoute(
           builder: (_) => const AuthTestPage(),

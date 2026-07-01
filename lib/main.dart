@@ -48,11 +48,11 @@ class MyApp extends StatelessWidget {
           create: (_) => getIt<NotificationSettingsCubit>(),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp( 
         title: 'Restflow',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(),
-        initialRoute: RoutesName.inventoryTest,
+        initialRoute: RoutesName.splash,
         onGenerateRoute: AppRoutes.generateRoute,
       ),
     );
