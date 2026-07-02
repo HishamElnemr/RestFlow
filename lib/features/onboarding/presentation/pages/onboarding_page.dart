@@ -65,7 +65,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void _onSkipPressed() {
     // Navigate to Auth screen when done
-    Navigator.pushReplacementNamed(context, RoutesName.authTest);
+    Navigator.pushReplacementNamed(context, RoutesName.login);
   }
 
   @override

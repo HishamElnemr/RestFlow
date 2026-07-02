@@ -125,7 +125,10 @@ void setupGetIt() {
   );
 
   getIt.registerFactory<AuthSessionCubit>(
-    () => AuthSessionCubit(getIt<AuthRepository>()),
+    () => AuthSessionCubit(
+      getIt<AuthRepository>(),
+      getIt<SecureStorageService>(),
+    ),
   );
 
   getIt.registerFactory<CustomersCubit>(
