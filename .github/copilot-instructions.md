@@ -1,44 +1,92 @@
-# 🤖 AI Agent Flutter Development Guidelines: Restflow SaaS
+## 🧩 4.5. UI Composition & Widget Structure (STRICT — NO EXCEPTIONS)
 
-Welcome! As an AI agent working on this Flutter project, your primary goal is to maintain clean, scalable, and highly readable code. You must strictly adhere to the following architecture, styling, and structural guidelines.
+This is a **mandatory, non-negotiable** rule for every screen you create. Violating this 
+structure is considered a failed implementation, even if the app compiles and looks correct.
 
-## 🏗️ 1. Architecture & Folder Structure
-This project follows a **Feature-First Clean Architecture** utilizing the **MVVM pattern** for the presentation layer.
+### Rule: Every Screen = 2 Files Minimum (Page + Body)
 
-### Directory Breakdown
-The `lib/` folder is divided into two main sections: `core` and `features`.
+For ANY new screen, you MUST split it into at least two separate widget classes, in two 
+separate files:
 
-- **`lib/core/`**: Contains globally shared resources, configurations, and generic components.
-  - `/constants/`: App-wide constants.
-  - `/errors/`: Exception and failure models.
-  - `/routes/`: App navigation routing configuration.
-  - `/services/`: Global services (e.g., API clients, local storage, DI).
-  - `/theme/`: Theming and color configurations.
-  - `/utils/`: Helper classes, extension methods, and asset managers.
-  - `/widgets/`: **CRITICAL:** Any UI widget used in more than one place must be placed here.
-- **`lib/features/`**: Contains isolated feature modules. Each feature has its own layered architecture: `data/`, `domain/`, and `presentation/`.
+1. **The Page (Scaffold wrapper)** — file: `lib/features/<feature>/presentation/pages/<name>_page.dart`
+   - Contains ONLY: `Scaffold`, `AppBar` (if any), and calls the Body widget.
+   - This file must be short (typically under 30-40 lines). If it's longer than that, 
+     you are doing it wrong — move logic out.
+   - Example skeleton:
+```dart
+     class LoginPage extends StatelessWidget {
+       const LoginPage({super.key});
 
-## 🚦 2. Routing & Navigation Rules
-When creating a new screen or view, you MUST follow this strict two-step registration process:
-1. **Route Name Definition**: Register the unique string identifier inside `lib/core/routes/routes_name.dart`.
-2. **Route Mapping**: Define the route generation and page binding inside `lib/core/routes/app_routes.dart`.
-*Never hardcode route strings inside views; always reference the constants from `routes_name.dart`.*
+       @override
+       Widget build(BuildContext context) {
+         return Scaffold(
+           body: SafeArea(
+             child: LoginPageBody(),
+           ),
+         );
+       }
+     }
+```
+   - If the screen needs a Cubit/Provider, wrap it here with `BlocProvider` — 
+     NOT inside the Body widget.
 
-## 💉 3. Dependency Injection (DI)
-We utilize the `get_it` package for service location and dependency injection.
-- All global singletons, factories, repositories, network clients, and ViewModels must be registered inside `lib/core/services/getit_services.dart`.
+2. **The Body** — file: `lib/features/<feature>/presentation/widgets/<name>_page_body.dart`
+   - Contains the actual layout: `Column`, `Padding`, `ListView`, etc.
+   - The Body itself must ALSO be broken down — it should mostly consist of calls 
+     to smaller widgets, NOT raw nested widget trees.
+   - If the Body's `build()` method exceeds ~50 lines, STOP and extract sections 
+     into smaller widgets immediately.
 
-## 🎨 4. Theming, UI, Localization and Assets
-- **Localization**: The app currently supports **English (en) ONLY**. 
-- **Theming**: The app operates in **Light Mode ONLY**. Do not write logic for Dark Mode.
-- **Colors & Typography**: Always use colors `lib/core/theme/app_colors.dart` and predefined styles from `lib/core/utils/app_styles.dart`.
+### Rule: Extract Every Repeated or Logical UI Section Into Its Own Widget
 
-## 🌐 5. Networking, API & Security Rules
-- **Retrofit**: API clients should be generated using `retrofit`.
-- **CRITICAL TENANT RULE:** **DO NOT** send `tenant_id` in the API headers for any request. The backend integrates the `tenant_id` directly inside the JWT token claims. Whenever an authenticated request is made, sending the `Authorization: Bearer <jwt>` is sufficient.
+Any of the following MUST become its own separate widget file, even if used only once 
+on that screen, if it represents a distinct logical section:
+- Headers/logos (e.g. `RestflowLogoHeader`)
+- Form sections (e.g. `LoginFormFields`)
+- A group of related inputs (e.g. `EmailPasswordFields`, `PhoneFields`)
+- Toggle/tab controls (e.g. `AuthMethodToggle`)
+- Footer/link rows (e.g. `AuthFooterLinks` for "Don't have an account? Sign up")
+- Any widget block used in 2+ places → MUST go in `lib/core/widgets/`
+- Any widget block used only within this feature → goes in 
+  `lib/features/<feature>/presentation/widgets/`
 
-## ♻️ 6. Agent Workflow Execution
-1. **Analyze**: Check the folder structure and layered architecture needed.
-2. **Register**: Declare routes in `routes_name.dart` and DI in `getit_services.dart`.
-3. **Implement**: Write feature code adhering to Light Mode and English-only defaults.
-4. **Refactor**: Split large widgets and move shared UI components to `lib/core/widgets/`.
+**Rule of thumb**: if you can give a UI section a clear, specific name 
+(e.g. "the email/password form", "the toggle tabs", "the footer links"), 
+it MUST be its own `StatelessWidget` class in its own file — not an inline 
+anonymous widget tree.
+
+### Rule: No Business Logic Inside Small Widgets
+
+Extracted widgets (form sections, toggles, etc.) must remain "dumb" — they receive 
+data and callbacks via constructor parameters ONLY. They must NOT:
+- Read `context.read<Cubit>()` directly (unless explicitly it's the top-level Body widget 
+  wiring the BlocConsumer)
+- Contain validation logic (validators are passed in, defined once in the Page/Body 
+  or a shared validators file)
+
+### Rule: File Naming Convention
+
+- Page: `<screen_name>_page.dart` → class `<ScreenName>Page`
+- Body: `<screen_name>_page_body.dart` → class `<ScreenName>PageBody`
+- Sub-widgets: `<descriptive_name>.dart` → class `<DescriptiveName>` 
+  (no generic names like `Widget1`, `CustomSection`, `MyForm`)
+
+### Self-Check Before Submitting Code (MANDATORY)
+
+Before presenting the final code, verify ALL of these are true. If ANY is false, 
+refactor before responding — do not submit code that fails this checklist:
+
+- [ ] The Page file contains ONLY Scaffold + Body call (no form fields, no columns 
+      of widgets, no business logic)
+- [ ] The Body's build() method is short and mostly composed of other widget calls, 
+      not a deep nested tree
+- [ ] Every logical UI section (header, form, toggle, footer, etc.) is its own 
+      widget class in its own file
+- [ ] No widget file exceeds ~100 lines
+- [ ] Shared widgets (used in 2+ places) are in `lib/core/widgets/`, 
+      feature-specific ones are in `lib/features/<feature>/presentation/widgets/`
+- [ ] No widget class has a generic/vague name
+
+**If you generate a single monolithic file with everything nested inside one 
+build() method, this is a FAILED response. Stop, split it according to the rules 
+above, and only then respond.**
