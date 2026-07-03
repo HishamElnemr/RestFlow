@@ -40,13 +40,26 @@ class _OtpPageBodyState extends State<OtpPageBody> {
 
   void _onVerify() {
     if (_pinController.text.length == 6) {
-      context.read<OtpCubit>().verifyOtp(
-        VerifyOtpRequestEntity(
-          email: widget.email,
-          code: _pinController.text,
-          channel: ChannelType.email,
-        ),
-      );
+      if (widget.isResetPassword) {
+        // Do not call verify-otp for password reset, as it consumes the OTP.
+        // Navigate directly to reset password screen with the OTP.
+        Navigator.pushNamed(
+          context,
+          RoutesName.resetPassword,
+          arguments: {
+            'email': widget.email,
+            'otpCode': _pinController.text,
+          },
+        );
+      } else {
+        context.read<OtpCubit>().verifyOtp(
+          VerifyOtpRequestEntity(
+            email: widget.email,
+            code: _pinController.text,
+            channel: ChannelType.email,
+          ),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a valid 6-digit code')),
@@ -148,23 +161,12 @@ class _OtpPageBodyState extends State<OtpPageBody> {
             ),
           );
 
-          if (widget.isResetPassword) {
-            Navigator.pushNamed(
-              context,
-              RoutesName.resetPassword,
-              arguments: {
-                'email': widget.email,
-                'otpCode': _pinController.text,
-              },
-            );
-          } else {
-            // Registration success — go to Home
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              RoutesName.home,
-              (route) => false,
-            );
-          }
+          // Registration success — go to Home
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RoutesName.home,
+            (route) => false,
+          );
         }
       },
       buildWhen: (previous, current) {

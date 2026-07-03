@@ -35,7 +35,12 @@ class AuthSessionLogoutSuccess extends AuthSessionState {
 
 /// Emitted when local token exists — user is authenticated.
 class AuthSessionAuthenticated extends AuthSessionState {
-  const AuthSessionAuthenticated();
+  const AuthSessionAuthenticated({this.role});
+
+  final String? role;
+
+  @override
+  List<Object?> get props => [role];
 }
 
 /// Emitted when no local token found — user must login.

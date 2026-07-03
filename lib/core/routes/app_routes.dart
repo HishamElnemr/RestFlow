@@ -12,6 +12,7 @@ import '../../features/auth/presentation/pages/otp_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/customers/presentation/pages/customers_test_page.dart';
+import '../../features/home/presentation/pages/employee_home_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/inventory/presentation/pages/inventory_test_page.dart';
 import '../../features/inventory/presentation/pages/low_stock_alerts_page.dart';
@@ -113,6 +114,11 @@ class AppRoutes {
       case RoutesName.home:
         return MaterialPageRoute(
           builder: (_) => const HomePage(),
+          settings: settings,
+        );
+      case RoutesName.employeeHome:
+        return MaterialPageRoute(
+          builder: (_) => const EmployeeHomePage(),
           settings: settings,
         );
       default:

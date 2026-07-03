@@ -51,7 +51,7 @@ class HomePageBody extends StatelessWidget {
                 const RestflowLogo(),
                 const SizedBox(height: 32),
                 const Text(
-                  'Welcome to RestFlow!',
+                  'Welcome, Owner!',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.w700,
@@ -62,7 +62,7 @@ class HomePageBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  'You are now logged in successfully.',
+                  'You are now logged in to the Owner Dashboard.',
                   style: TextStyle(
                     fontSize: 15,
                     color: AppColors.mutedGray,

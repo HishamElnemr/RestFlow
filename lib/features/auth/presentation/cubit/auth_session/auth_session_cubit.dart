@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/services/secure_storage_service.dart';
+import '../../../../../core/utils/jwt_utils.dart';
 import '../../../domain/entities/logout_request_entity.dart';
 import '../../../domain/repositories/auth_repository.dart';
 import 'auth_session_state.dart';
@@ -17,7 +18,8 @@ class AuthSessionCubit extends Cubit<AuthSessionState> {
     emit(const AuthSessionLoading());
     final token = await _secureStorage.readAccessToken();
     if (token != null && token.isNotEmpty) {
-      emit(const AuthSessionAuthenticated());
+      final role = JwtUtils.getRole(token);
+      emit(AuthSessionAuthenticated(role: role));
     } else {
       emit(const AuthSessionUnauthenticated());
     }

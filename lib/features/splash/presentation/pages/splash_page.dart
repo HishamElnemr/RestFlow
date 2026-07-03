@@ -15,7 +15,11 @@ class SplashPage extends StatelessWidget {
     return BlocListener<AuthSessionCubit, AuthSessionState>(
       listener: (context, state) {
         if (state is AuthSessionAuthenticated) {
-          Navigator.pushReplacementNamed(context, RoutesName.home);
+          final isOwner = state.role == 'Owner' || state.role == 'SuperAdmin';
+          Navigator.pushReplacementNamed(
+            context,
+            isOwner ? RoutesName.home : RoutesName.employeeHome,
+          );
         } else if (state is AuthSessionUnauthenticated) {
           Navigator.pushReplacementNamed(context, RoutesName.onboarding);
         }

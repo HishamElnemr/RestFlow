@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_flow/features/auth/domain/entities/login_request_entity.dart';
+import '../../../../core/utils/jwt_utils.dart';
 
 import '../../../../core/routes/routes_name.dart';
 import '../../../../core/services/getit_services.dart';
@@ -94,7 +95,6 @@ class _LoginPageBodyState extends State<LoginPageBody> {
             ),
           );
         } else if (state is LoginSuccess) {
-          // Save tokens securely
           final response = state.response;
           if (response.token != null) {
             await getIt<SecureStorageService>().saveAccessToken(response.token!);
@@ -103,9 +103,12 @@ class _LoginPageBodyState extends State<LoginPageBody> {
             await getIt<SecureStorageService>().saveRefreshToken(response.refreshToken!);
           }
           if (context.mounted) {
+            final role = response.token != null ? JwtUtils.getRole(response.token!) : null;
+            final isOwner = role == 'Owner' || role == 'SuperAdmin';
+
             Navigator.pushNamedAndRemoveUntil(
               context,
-              RoutesName.home,
+              isOwner ? RoutesName.home : RoutesName.employeeHome,
               (route) => false,
             );
           }
