@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'ai_insight_card.dart';
 import 'owner_dashboard_header.dart';
+import '../../../../core/routes/routes_name.dart';
 import 'quick_access_grid.dart';
 import 'recent_orders_list.dart';
 import 'revenue_card.dart';
@@ -60,7 +61,11 @@ class OwnerDashboardPageBody extends StatelessWidget {
           const SizedBox(height: 20),
           const RecentOrdersList(),
           const SizedBox(height: 24),
-          const QuickAccessGrid(),
+          QuickAccessGrid(
+            onInventoryTap: () {
+              Navigator.pushNamed(context, RoutesName.inventory);
+            },
+          ),
           const SizedBox(height: 20),
         ],
       ),
