@@ -164,7 +164,7 @@ class _OtpPageBodyState extends State<OtpPageBody> {
           // Registration success — go to Home
           Navigator.pushNamedAndRemoveUntil(
             context,
-            RoutesName.home,
+            RoutesName.layout,
             (route) => false,
           );
         }

@@ -18,7 +18,7 @@ class SplashPage extends StatelessWidget {
           final isOwner = state.role == 'Owner' || state.role == 'SuperAdmin';
           Navigator.pushReplacementNamed(
             context,
-            isOwner ? RoutesName.home : RoutesName.employeeHome,
+            isOwner ? RoutesName.layout : RoutesName.employeeHome,
           );
         } else if (state is AuthSessionUnauthenticated) {
           Navigator.pushReplacementNamed(context, RoutesName.onboarding);

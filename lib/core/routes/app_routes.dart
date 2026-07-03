@@ -13,12 +13,12 @@ import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/customers/presentation/pages/customers_test_page.dart';
 import '../../features/home/presentation/pages/employee_home_page.dart';
-import '../../features/home/presentation/pages/home_page.dart';
+
 import '../../features/inventory/presentation/pages/inventory_test_page.dart';
 import '../../features/inventory/presentation/pages/low_stock_alerts_page.dart';
 import '../../features/menu/presentation/pages/menu_orders_page.dart';
 import '../../features/menu/presentation/pages/menu_page.dart';
-import '../../features/dashboard/presentation/pages/dashboard_page.dart';
+import '../../features/layout/presentation/pages/layout_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/settings/presentation/pages/notification_settings_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
@@ -124,14 +124,9 @@ class AppRoutes {
           builder: (_) => const NotificationSettingsPage(),
           settings: settings,
         );
-      case RoutesName.dashboard:
+      case RoutesName.layout:
         return MaterialPageRoute(
-          builder: (_) => const DashboardPage(),
-          settings: settings,
-        );
-      case RoutesName.home:
-        return MaterialPageRoute(
-          builder: (_) => const HomePage(),
+          builder: (_) => const LayoutPage(),
           settings: settings,
         );
       case RoutesName.employeeHome:

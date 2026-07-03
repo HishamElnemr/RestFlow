@@ -8,7 +8,6 @@ class RecentOrdersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Hardcoded list representing the orders in the design image.
     final orders = [
       _OrderDemoData(
         id: '#ORD-1234',
