@@ -108,7 +108,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
 
             Navigator.pushNamedAndRemoveUntil(
               context,
-              isOwner ? RoutesName.home : RoutesName.employeeHome,
+              isOwner ? RoutesName.layout : RoutesName.employeeHome,
               (route) => false,
             );
           }
