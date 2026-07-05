@@ -15,20 +15,6 @@ class InventoryPage extends StatelessWidget {
       create: (_) => getIt<InventoryItemsCubit>()..fetchInventoryItems(),
       child: Scaffold(
         backgroundColor: AppColors.backgroundLight,
-        appBar: AppBar(
-          title: const Text(
-            'Inventory',
-            style: TextStyle(
-              color: AppColors.darkNavy,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-            ),
-          ),
-          backgroundColor: AppColors.backgroundLight,
-          elevation: 0,
-          iconTheme: const IconThemeData(color: AppColors.darkNavy),
-        ),
         body: const SafeArea(
           child: InventoryPageBody(),
         ),

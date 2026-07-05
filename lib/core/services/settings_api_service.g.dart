@@ -12,7 +12,7 @@ part of 'settings_api_service.dart';
 
 class _SettingsApiService implements SettingsApiService {
   _SettingsApiService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://43d9028c-85a4-41d8-bd1c-a8cf7febe355.mock.pstmn.io';
+    baseUrl ??= 'https://restflow.runasp.net';
   }
 
   final Dio _dio;
@@ -146,11 +146,11 @@ class _SettingsApiService implements SettingsApiService {
     _data.files.add(MapEntry('file', file));
     final _options = _setStreamType<ImageUploadResponseModel>(
       Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'multipart/form-data',
-          )
+        method: 'POST',
+        headers: _headers,
+        extra: _extra,
+        contentType: 'multipart/form-data',
+      )
           .compose(
             _dio.options,
             '/api/Settings/profile/image',
@@ -238,11 +238,11 @@ class _SettingsApiService implements SettingsApiService {
     _data.files.add(MapEntry('file', file));
     final _options = _setStreamType<LogoUploadResponseModel>(
       Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'multipart/form-data',
-          )
+        method: 'POST',
+        headers: _headers,
+        extra: _extra,
+        contentType: 'multipart/form-data',
+      )
           .compose(
             _dio.options,
             '/api/Settings/restaurant/logo',

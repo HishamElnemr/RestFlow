@@ -12,7 +12,7 @@ part of 'reports_api_service.dart';
 
 class _ReportsApiService implements ReportsApiService {
   _ReportsApiService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://43d9028c-85a4-41d8-bd1c-a8cf7febe355.mock.pstmn.io';
+    baseUrl ??= 'https://restflow.runasp.net';
   }
 
   final Dio _dio;

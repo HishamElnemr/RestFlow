@@ -20,8 +20,9 @@ import '../../features/inventory/presentation/pages/inventory_page.dart';
 import '../../features/menu/presentation/pages/menu_orders_page.dart';
 import '../../features/menu/presentation/pages/menu_page.dart';
 import '../../features/layout/presentation/pages/layout_page.dart';
+import '../../features/notification/presentation/pages/notifications_page.dart';
+import '../../features/notification/presentation/pages/notification_settings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
-import '../../features/settings/presentation/pages/notification_settings_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../services/getit_services.dart';
 import 'routes_name.dart';
@@ -138,6 +139,11 @@ class AppRoutes {
       case RoutesName.employeeHome:
         return MaterialPageRoute(
           builder: (_) => const EmployeeHomePage(),
+          settings: settings,
+        );
+      case RoutesName.notifications:
+        return MaterialPageRoute(
+          builder: (_) => const NotificationsPage(),
           settings: settings,
         );
       default:

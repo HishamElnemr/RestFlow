@@ -4,6 +4,7 @@ import 'ai_insight_card.dart';
 import 'owner_dashboard_header.dart';
 import '../../../../core/routes/routes_name.dart';
 import 'quick_access_grid.dart';
+import 'owner_dashboard_notifications_widget.dart';
 import 'recent_orders_list.dart';
 import 'revenue_card.dart';
 import 'stat_card.dart';
@@ -58,6 +59,8 @@ class OwnerDashboardPageBody extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           const AiInsightCard(),
+          const SizedBox(height: 20),
+          const OwnerDashboardNotificationsWidget(),
           const SizedBox(height: 20),
           const RecentOrdersList(),
           const SizedBox(height: 24),

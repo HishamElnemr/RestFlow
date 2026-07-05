@@ -5,6 +5,7 @@ class RoutesName {
   static const String lowStockAlerts = '/low-stock-alerts';
   static const String inventory = '/inventory';
   static const String notificationSettings = '/notification-settings';
+  static const String notifications = '/notifications';
   static const String menuOrders = '/menu-orders';
   static const String menu = '/menu';
   static const String splash = '/splash';

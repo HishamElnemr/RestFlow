@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_flow/features/auth/domain/entities/login_request_entity.dart';
-import '../../../../core/utils/jwt_utils.dart';
-
 import '../../../../core/routes/routes_name.dart';
 import '../../../../core/services/getit_services.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/jwt_utils.dart';
 import '../../../../core/widgets/custom_primary_button.dart';
 import '../../../../core/widgets/restflow_logo.dart';
 import '../cubit/login/login_cubit.dart';
 import '../cubit/login/login_state.dart';
-import 'login_footer_links.dart';
+import 'login_appbar.dart';
 import 'login_forgot_password_link.dart';
 import 'login_form_fields.dart';
-import 'login_appbar.dart';
 
 class LoginPageBody extends StatefulWidget {
   const LoginPageBody({super.key});
@@ -38,11 +36,11 @@ class _LoginPageBodyState extends State<LoginPageBody> {
   void _onSignIn() {
     if (_formKey.currentState?.validate() ?? false) {
       context.read<LoginCubit>().login(
-        LoginRequestEntity(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-        ),
-      );
+            LoginRequestEntity(
+              email: _emailController.text.trim(),
+              password: _passwordController.text,
+            ),
+          );
     }
   }
 
@@ -73,10 +71,6 @@ class _LoginPageBodyState extends State<LoginPageBody> {
               const SizedBox(height: 32),
               _buildSubmitButton(),
               const SizedBox(height: 32),
-              LoginFooterLinks(
-                onSignUpPressed: () =>
-                    Navigator.pushNamed(context, RoutesName.register),
-              ),
             ],
           ),
         ),
@@ -97,13 +91,17 @@ class _LoginPageBodyState extends State<LoginPageBody> {
         } else if (state is LoginSuccess) {
           final response = state.response;
           if (response.token != null) {
-            await getIt<SecureStorageService>().saveAccessToken(response.token!);
+            await getIt<SecureStorageService>()
+                .saveAccessToken(response.token!);
           }
           if (response.refreshToken != null) {
-            await getIt<SecureStorageService>().saveRefreshToken(response.refreshToken!);
+            await getIt<SecureStorageService>()
+                .saveRefreshToken(response.refreshToken!);
           }
           if (context.mounted) {
-            final role = response.token != null ? JwtUtils.getRole(response.token!) : null;
+            final role = response.token != null
+                ? JwtUtils.getRole(response.token!)
+                : null;
             final isOwner = role == 'Owner' || role == 'SuperAdmin';
 
             Navigator.pushNamedAndRemoveUntil(

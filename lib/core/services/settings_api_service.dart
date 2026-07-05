@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../features/settings/data/models/notification_settings_model.dart';
-import '../../features/settings/data/models/message_response_model.dart';
-import '../../features/settings/data/models/user_profile_model.dart';
-import '../../features/settings/data/models/update_profile_request_model.dart';
-import '../../features/settings/data/models/restaurant_settings_model.dart';
-import '../../features/settings/data/models/update_restaurant_settings_request_model.dart';
-import '../../features/settings/data/models/image_upload_response_model.dart';
-import '../../features/settings/data/models/logo_upload_response_model.dart';
+import '../../features/notification/data/models/notification_settings_model.dart';
+import '../../features/notification/data/models/message_response_model.dart';
+import '../../features/notification/data/models/user_profile_model.dart';
+import '../../features/notification/data/models/update_profile_request_model.dart';
+import '../../features/notification/data/models/restaurant_settings_model.dart';
+import '../../features/notification/data/models/update_restaurant_settings_request_model.dart';
+import '../../features/notification/data/models/image_upload_response_model.dart';
+import '../../features/notification/data/models/logo_upload_response_model.dart';
 import '../constants/api_constants.dart';
 
 part 'settings_api_service.g.dart';

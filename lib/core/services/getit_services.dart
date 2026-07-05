@@ -20,11 +20,11 @@ import '../../features/inventory/presentation/cubit/inventory_items/inventory_it
 import '../../features/inventory/presentation/cubit/low_stock/low_stock_cubit.dart';
 import '../../features/inventory/presentation/cubit/low_stock_count/low_stock_count_cubit.dart';
 import '../../features/inventory/presentation/cubit/stock_movements/stock_movements_cubit.dart';
-import '../../features/settings/data/repositories/settings_repository_impl.dart';
-import '../../features/settings/domain/repositories/settings_repository.dart';
-import '../../features/settings/presentation/cubit/notification_settings/notification_settings_cubit.dart';
-import '../../features/settings/presentation/cubit/user_profile_settings/user_profile_settings_cubit.dart';
-import '../../features/settings/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
+import '../../features/notification/data/repositories/settings_repository_impl.dart';
+import '../../features/notification/domain/repositories/settings_repository.dart';
+import '../../features/notification/presentation/cubit/notification_settings/notification_settings_cubit.dart';
+import '../../features/notification/presentation/cubit/user_profile_settings/user_profile_settings_cubit.dart';
+import '../../features/notification/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
 import '../../features/reports/data/repositories/reports_repository_impl.dart';
 import '../../features/reports/domain/repositories/reports_repository.dart';
 import '../../features/reports/presentation/cubit/reports/reports_cubit.dart';
@@ -42,7 +42,10 @@ import 'menu_api_service.dart';
 import 'reports_api_service.dart';
 import 'secure_storage_service.dart';
 import 'settings_api_service.dart';
-
+import 'notifications_api_service.dart';
+import '../../features/notification/data/repositories/notifications_repository_impl.dart';
+import '../../features/notification/domain/repositories/notifications_repository.dart';
+import '../../features/notification/presentation/cubit/notifications_list/notifications_list_cubit.dart';
 final GetIt getIt = GetIt.instance;
 
 void setupGetIt() {
@@ -79,6 +82,10 @@ void setupGetIt() {
     () => ReportsApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
+  getIt.registerLazySingleton<NotificationsApiService>(
+    () => NotificationsApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
+  );
+
   // ── Repositories ──────────────────────────────────────────────────────────
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -101,6 +108,10 @@ void setupGetIt() {
 
   getIt.registerLazySingleton<ReportsRepository>(
     () => ReportsRepositoryImpl(apiService: getIt<ReportsApiService>()),
+  );
+
+  getIt.registerLazySingleton<NotificationsRepository>(
+    () => NotificationsRepositoryImpl(getIt<NotificationsApiService>()),
   );
 
   // ── Cubits / ViewModels ───────────────────────────────────────────────────
@@ -137,6 +148,10 @@ void setupGetIt() {
 
   getIt.registerFactory<InventoryItemsCubit>(
     () => InventoryItemsCubit(getIt<InventoryRepository>()),
+  );
+
+  getIt.registerFactory<NotificationsListCubit>(
+    () => NotificationsListCubit(getIt<NotificationsRepository>()),
   );
 
   getIt.registerFactory<InventoryCategoriesCubit>(
