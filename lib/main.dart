@@ -7,7 +7,6 @@ import 'core/routes/app_routes.dart';
 import 'core/routes/routes_name.dart';
 import 'core/services/getit_services.dart';
 import 'core/services/firebase_notification_service.dart';
-import 'features/notification/domain/repositories/notifications_repository.dart';
 import 'features/auth/presentation/cubit/auth_session/auth_session_cubit.dart';
 import 'features/auth/presentation/cubit/login/login_cubit.dart';
 import 'features/auth/presentation/cubit/otp/otp_cubit.dart';
@@ -27,8 +26,7 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final notificationsRepo = getIt<NotificationsRepository>();
-  await FirebaseNotificationService().initialize(notificationsRepo);
+  await FirebaseNotificationService().initialize();
   runApp(const MyApp());
 }
 

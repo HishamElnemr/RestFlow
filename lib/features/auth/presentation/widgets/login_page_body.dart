@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_flow/features/auth/domain/entities/login_request_entity.dart';
 import '../../../../core/routes/routes_name.dart';
+import '../../../../core/services/firebase_notification_service.dart';
 import '../../../../core/services/getit_services.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/jwt_utils.dart';
 import '../../../../core/widgets/custom_primary_button.dart';
 import '../../../../core/widgets/restflow_logo.dart';
+import '../../../../features/notification/domain/repositories/notifications_repository.dart';
 import '../cubit/login/login_cubit.dart';
 import '../cubit/login/login_state.dart';
 import 'login_appbar.dart';
@@ -98,6 +100,9 @@ class _LoginPageBodyState extends State<LoginPageBody> {
             await getIt<SecureStorageService>()
                 .saveRefreshToken(response.refreshToken!);
           }
+          await FirebaseNotificationService().registerTokenAfterLogin(
+            getIt<NotificationsRepository>(),
+          );
           if (context.mounted) {
             final role = response.token != null
                 ? JwtUtils.getRole(response.token!)

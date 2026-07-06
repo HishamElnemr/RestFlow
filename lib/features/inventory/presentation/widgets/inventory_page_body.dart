@@ -41,7 +41,7 @@ class _InventoryPageBodyState extends State<InventoryPageBody> {
         SliverPersistentHeader(
           pinned: true,
           delegate: _StickyHeaderDelegate(
-            height: 142.0,
+            height: 152.0,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(

@@ -19,80 +19,83 @@ class OnboardingCarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: 96,
-          height: 96,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: gradient,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 7.5,
-                offset: const Offset(0, 10),
-              ),
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 3,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Center(
-            child: SizedBox(
-              width: 48,
-              height: 48,
-              child: SvgPicture.asset(
-                imagePath,
-                fit: BoxFit.contain,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.white,
-                  BlendMode.srcIn,
+    return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 96,
+            height: 96,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: gradient,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 7.5,
+                  offset: const Offset(0, 10),
+                ),
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 3,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(
+              child: SizedBox(
+                width: 48,
+                height: 48,
+                child: SvgPicture.asset(
+                  imagePath,
+                  fit: BoxFit.contain,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 32),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: AppColors.darkNavy,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Inter',
-                  ) ??
-              const TextStyle(
-                fontSize: 24,
-                color: AppColors.darkNavy,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Inter',
-              ),
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Text(
-            description,
+          const SizedBox(height: 24),
+          Text(
+            title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppColors.mutedGray,
-                      height: 1.6,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: AppColors.darkNavy,
+                      fontWeight: FontWeight.w500,
                       fontFamily: 'Inter',
                     ) ??
                 const TextStyle(
-                  fontSize: 16,
-                  height: 1.6,
-                  color: AppColors.mutedGray,
+                  fontSize: 24,
+                  color: AppColors.darkNavy,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'Inter',
                 ),
           ),
-        ),
-      ],
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Text(
+              description,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: AppColors.mutedGray,
+                        height: 1.5,
+                        fontFamily: 'Inter',
+                      ) ??
+                  const TextStyle(
+                    fontSize: 16,
+                    height: 1.5,
+                    color: AppColors.mutedGray,
+                    fontFamily: 'Inter',
+                  ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

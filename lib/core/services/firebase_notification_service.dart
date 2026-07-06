@@ -24,31 +24,21 @@ class FirebaseNotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  Future<void> initialize(NotificationsRepository notificationsRepository) async {
-    // 1. Request permissions for iOS
+  Future<void> initialize() async {
     await _requestPermission();
-
-    // 2. Initialize local notifications for foreground messages
     await _initLocalNotifications();
-
-    // 3. Set up background handler
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-    // 4. Set up foreground handler
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint('Got a message whilst in the foreground!');
       debugPrint('Message data: ${message.data}');
-
       if (message.notification != null) {
-        debugPrint('Message also contained a notification: ${message.notification}');
         _showLocalNotification(message);
       }
     });
+  }
 
-    // 5. Get the token and register it
+  Future<void> registerTokenAfterLogin(NotificationsRepository notificationsRepository) async {
     await _registerToken(notificationsRepository);
-
-    // 6. Listen to token refresh
     _firebaseMessaging.onTokenRefresh.listen((newToken) async {
       await _registerTokenWith(newToken, notificationsRepository);
     });

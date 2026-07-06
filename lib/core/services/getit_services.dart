@@ -46,6 +46,10 @@ import 'notifications_api_service.dart';
 import '../../features/notification/data/repositories/notifications_repository_impl.dart';
 import '../../features/notification/domain/repositories/notifications_repository.dart';
 import '../../features/notification/presentation/cubit/notifications_list/notifications_list_cubit.dart';
+import '../../features/orders/data/repositories/orders_repository_impl.dart';
+import '../../features/orders/domain/repositories/orders_repository.dart';
+import '../../features/orders/presentation/cubit/orders_cubit.dart';
+import 'orders_api_service.dart';
 final GetIt getIt = GetIt.instance;
 
 void setupGetIt() {
@@ -86,6 +90,10 @@ void setupGetIt() {
     () => NotificationsApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
+  getIt.registerLazySingleton<OrdersApiService>(
+    () => OrdersApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
+  );
+
   // ── Repositories ──────────────────────────────────────────────────────────
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -112,6 +120,10 @@ void setupGetIt() {
 
   getIt.registerLazySingleton<NotificationsRepository>(
     () => NotificationsRepositoryImpl(getIt<NotificationsApiService>()),
+  );
+
+  getIt.registerLazySingleton<OrdersRepository>(
+    () => OrdersRepositoryImpl(getIt<OrdersApiService>()),
   );
 
   // ── Cubits / ViewModels ───────────────────────────────────────────────────
@@ -152,6 +164,10 @@ void setupGetIt() {
 
   getIt.registerFactory<NotificationsListCubit>(
     () => NotificationsListCubit(getIt<NotificationsRepository>()),
+  );
+
+  getIt.registerFactory<OrdersCubit>(
+    () => OrdersCubit(getIt<OrdersRepository>()),
   );
 
   getIt.registerFactory<InventoryCategoriesCubit>(
