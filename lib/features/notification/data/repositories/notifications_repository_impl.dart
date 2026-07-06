@@ -41,4 +41,18 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
       return Left(ErrorHandler.handle(error));
     }
   }
+
+  @override
+  Future<Either<AppFailure, void>> registerDeviceToken(String token, int deviceType) async {
+    try {
+      final body = {
+        'token': token,
+        'deviceType': deviceType,
+      };
+      await _apiService.registerDeviceToken(body);
+      return const Right(null);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error));
+    }
+  }
 }

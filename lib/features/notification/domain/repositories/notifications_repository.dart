@@ -7,4 +7,5 @@ abstract class NotificationsRepository {
   Future<Either<AppFailure, NotificationListResponseEntity>> fetchNotifications();
   Future<Either<AppFailure, void>> markAsRead(String id);
   Future<Either<AppFailure, void>> markAllAsRead();
+  Future<Either<AppFailure, void>> registerDeviceToken(String token, int deviceType);
 }
