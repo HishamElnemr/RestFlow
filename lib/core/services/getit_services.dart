@@ -50,6 +50,11 @@ import '../../features/orders/data/repositories/orders_repository_impl.dart';
 import '../../features/orders/domain/repositories/orders_repository.dart';
 import '../../features/orders/presentation/cubit/orders_cubit.dart';
 import 'orders_api_service.dart';
+import '../../features/ai/data/repositories/ai_repository_impl.dart';
+import '../../features/ai/domain/repositories/ai_repository.dart';
+import '../../features/ai/presentation/cubit/ai_chat/ai_chat_cubit.dart';
+import '../../features/ai/presentation/cubit/ai_dashboard/ai_dashboard_cubit.dart';
+import 'ai_api_service.dart';
 final GetIt getIt = GetIt.instance;
 
 void setupGetIt() {
@@ -94,6 +99,10 @@ void setupGetIt() {
     () => OrdersApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
+  getIt.registerLazySingleton<AiApiService>(
+    () => AiApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
+  );
+
   // ── Repositories ──────────────────────────────────────────────────────────
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -124,6 +133,10 @@ void setupGetIt() {
 
   getIt.registerLazySingleton<OrdersRepository>(
     () => OrdersRepositoryImpl(getIt<OrdersApiService>()),
+  );
+
+  getIt.registerLazySingleton<AiRepository>(
+    () => AiRepositoryImpl(getIt<AiApiService>()),
   );
 
   // ── Cubits / ViewModels ───────────────────────────────────────────────────
@@ -168,6 +181,14 @@ void setupGetIt() {
 
   getIt.registerFactory<OrdersCubit>(
     () => OrdersCubit(getIt<OrdersRepository>()),
+  );
+
+  getIt.registerFactory<AiChatCubit>(
+    () => AiChatCubit(getIt<AiRepository>()),
+  );
+
+  getIt.registerFactory<AiDashboardCubit>(
+    () => AiDashboardCubit(getIt<AiRepository>()),
   );
 
   getIt.registerFactory<InventoryCategoriesCubit>(
