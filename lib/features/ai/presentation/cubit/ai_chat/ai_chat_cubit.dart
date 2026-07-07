@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_flow/features/ai/domain/repositories/ai_repository.dart';
 
@@ -10,14 +11,21 @@ class AiChatCubit extends Cubit<AiChatState> {
 
   Future<void> sendMessage(String message) async {
     if (message.trim().isEmpty) return;
-
+    
+    log('AiChatCubit: Sending message: $message');
     emit(const AiChatLoading());
 
     final result = await _repository.sendMessage(message);
 
     result.fold(
-      (failure) => emit(AiChatError(failure)),
-      (response) => emit(AiChatSuccess(response)),
+      (failure) {
+        log('AiChatCubit: Failed with error: ${failure.message}');
+        emit(AiChatError(failure));
+      },
+      (response) {
+        log('AiChatCubit: Success. Received response: ${response.response}');
+        emit(AiChatSuccess(response));
+      },
     );
   }
 }

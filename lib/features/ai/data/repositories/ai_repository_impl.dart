@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:dartz/dartz.dart';
 
 import 'package:rest_flow/core/errors/app_failure.dart';
@@ -18,11 +19,14 @@ class AiRepositoryImpl implements AiRepository {
     String message,
   ) async {
     try {
+      log('AiRepository: Calling _apiService.sendMessage with message: $message');
       final response = await _apiService.sendMessage(
         ChatMessageRequestModel(message: message),
       );
+      log('AiRepository: _apiService.sendMessage successful');
       return Right(response);
     } catch (e) {
+      log('AiRepository: Exception caught in _apiService.sendMessage: $e');
       return Left(ErrorHandler.handle(e));
     }
   }

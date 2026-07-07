@@ -67,6 +67,14 @@ void setupGetIt() {
   getIt.registerLazySingleton<Dio>(() {
     final dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
     dio.interceptors.add(AuthInterceptor(getIt<SecureStorageService>()));
+    dio.interceptors.add(LogInterceptor(
+      request: true,
+      requestHeader: true,
+      requestBody: true,
+      responseHeader: true,
+      responseBody: true,
+      error: true,
+    ));
     return dio;
   });
 
