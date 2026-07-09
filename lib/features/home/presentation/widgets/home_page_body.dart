@@ -13,10 +13,8 @@ class HomePageBody extends StatelessWidget {
   const HomePageBody({super.key});
 
   Future<void> _logout(BuildContext context) async {
-    // Clear local tokens immediately
     await getIt<SecureStorageService>().deleteTokens();
 
-    // Call server logout (fire and forget, don't block navigation)
     if (context.mounted) {
       context.read<AuthSessionCubit>().logout(
         const LogoutRequestEntity(refreshToken: ''),
