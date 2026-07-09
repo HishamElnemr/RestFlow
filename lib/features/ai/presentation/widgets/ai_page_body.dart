@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../cubit/ai_chat/ai_chat_cubit.dart';
 import '../cubit/ai_chat/ai_chat_state.dart';
@@ -74,24 +75,43 @@ class _AiPageBodyState extends State<AiPageBody> {
         children: [
           const AiAdvisorBanner(),
           Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                return AiChatBubble(
-                  text: message.text,
-                  isUser: message.isUser,
+            child: BlocBuilder<AiChatCubit, AiChatState>(
+              builder: (context, state) {
+                final isLoading = state is AiChatLoading;
+                return ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                  itemCount: _messages.length + (isLoading ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (isLoading && index == _messages.length) {
+                      return const Skeletonizer(
+                        enabled: true,
+                        child: AiChatBubble(
+                          text: 'Thinking...\nGenerating a detailed business response for you.',
+                          isUser: false,
+                        ),
+                      );
+                    }
+                    final message = _messages[index];
+                    return AiChatBubble(
+                      text: message.text,
+                      isUser: message.isUser,
+                    );
+                  },
                 );
               },
             ),
           ),
           BlocBuilder<AiChatCubit, AiChatState>(
             builder: (context, state) {
-              return AiInputArea(
-                onSend: _sendMessage,
-                isLoading: state is AiChatLoading,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AiInputArea(
+                    onSend: _sendMessage,
+                    isLoading: state is AiChatLoading,
+                  ),
+                ],
               );
             },
           ),

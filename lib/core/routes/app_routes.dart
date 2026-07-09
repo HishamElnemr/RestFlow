@@ -23,6 +23,8 @@ import '../../features/notification/presentation/pages/notifications_page.dart';
 import '../../features/notification/presentation/pages/notification_settings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
+import '../../features/ai/presentation/pages/ai_page.dart';
+import '../../features/ai/presentation/pages/ai_dashboard_page.dart';
 import '../services/getit_services.dart';
 import 'routes_name.dart';
 
@@ -138,6 +140,16 @@ class AppRoutes {
       case RoutesName.notifications:
         return MaterialPageRoute(
           builder: (_) => const NotificationsPage(),
+          settings: settings,
+        );
+      case RoutesName.aiDashboard:
+        return MaterialPageRoute(
+          builder: (_) => const AiDashboardPage(),
+          settings: settings,
+        );
+      case RoutesName.aiChat:
+        return MaterialPageRoute(
+          builder: (_) => const AiPage(),
           settings: settings,
         );
       default:

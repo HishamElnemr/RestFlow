@@ -16,6 +16,7 @@ class RoutesName {
   static const String forgotPassword = '/forgot-password';
   static const String otp = '/otp';
   static const String resetPassword = '/reset-password';
-
   static const String employeeHome = '/employee-home';
+  static const String aiDashboard = '/ai-dashboard';
+  static const String aiChat = '/ai-chat';
 }

@@ -4,6 +4,8 @@ import 'package:rest_flow/core/services/getit_services.dart';
 import 'package:rest_flow/core/theme/app_colors.dart';
 import 'package:rest_flow/features/ai/presentation/cubit/ai_chat/ai_chat_cubit.dart';
 
+import 'package:rest_flow/core/utils/app_styles.dart';
+
 import '../widgets/ai_page_body.dart';
 
 class AiPage extends StatelessWidget {
@@ -22,13 +24,10 @@ class AiPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.darkNavy, size: 20),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: const Text(
+          title: Text(
             'AI Business Advisor',
-            style: TextStyle(
+            style: AppStyles.heading3SemiBold18(context).copyWith(
               color: AppColors.darkNavy,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Inter',
             ),
           ),
           centerTitle: true,
