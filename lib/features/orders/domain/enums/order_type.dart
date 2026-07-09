@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum OrderType {
-  @JsonValue(1)
+  @JsonValue('DineIn')
   dineIn(1),
-  @JsonValue(2)
+  @JsonValue('Takeaway')
   takeaway(2),
-  @JsonValue(3)
+  @JsonValue('Delivery')
   delivery(3);
 
   final int value;

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_flow/core/dummy_data/financial_summary_dummy.dart';
 import 'package:rest_flow/features/reports/presentation/cubit/reports/reports_cubit.dart';
 import 'package:rest_flow/features/reports/presentation/cubit/reports/reports_state.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/dummy_data/financial_summary_dummy.dart';
-import 'revenue_card_header.dart';
 import 'revenue_card_content.dart';
+import 'revenue_card_header.dart';
 
 class RevenueCard extends StatefulWidget {
   const RevenueCard({super.key});
@@ -101,22 +102,27 @@ class _RevenueCardState extends State<RevenueCard> {
             builder: (context, state) {
               if (state is ReportsFailure &&
                   state.action == ReportsAction.financialSummary) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24.0),
-                  child: Center(
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
                     child: Text(
-                      'Failed to load data',
-                      style: TextStyle(color: AppColors.white),
+                      state.failure.message,
+                      style: const TextStyle(color: AppColors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 );
               }
 
-              final isLoading = state is ReportsLoading &&
-                  state.action == ReportsAction.financialSummary;
-              final summary = state is FinancialSummarySuccess
-                  ? state.summary
-                  : FinancialSummaryDummy.dummy;
+              final isLoading = state is ReportsInitial ||
+                  (state is ReportsLoading &&
+                      state.action == ReportsAction.financialSummary);
+
+              var displaySummary = FinancialSummaryDummy.dummy;
+
+              if (state is FinancialSummarySuccess) {
+                displaySummary = state.summary;
+              }
 
               return Skeletonizer(
                 enabled: isLoading,
@@ -124,7 +130,7 @@ class _RevenueCardState extends State<RevenueCard> {
                   baseColor: AppColors.white.withOpacity(0.3),
                   highlightColor: AppColors.whiteOpacity80,
                 ),
-                child: RevenueCardContent(summary: summary),
+                child: RevenueCardContent(summary: displaySummary),
               );
             },
           ),

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../core/dummy_data/dummy_orders.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/app_styles.dart';
 import '../../domain/enums/order_status.dart';
+import '../../domain/enums/order_type.dart';
+import '../../domain/enums/payment_status.dart';
 import '../cubit/orders_cubit.dart';
 import '../cubit/orders_state.dart';
 import 'order_item_card.dart';
+import 'orders_filter_bottom_sheet.dart';
+import 'orders_filter_button.dart';
 import 'orders_filter_tabs.dart';
 import 'orders_search_bar.dart';
 
@@ -18,51 +25,105 @@ class OrdersPageBody extends StatefulWidget {
 
 class _OrdersPageBodyState extends State<OrdersPageBody> {
   OrderStatus? _selectedStatus;
+  PaymentStatus? _selectedPaymentStatus;
+  OrderType? _selectedOrderType;
+  String? _fromDate;
+  String? _toDate;
+
+  bool get _hasActiveExtraFilters =>
+      _selectedPaymentStatus != null ||
+      _selectedOrderType != null ||
+      _fromDate != null ||
+      _toDate != null;
+
+  void _applyFilters() {
+    context.read<OrdersCubit>().fetchOrders(
+          status: _selectedStatus,
+          paymentStatus: _selectedPaymentStatus,
+          orderType: _selectedOrderType,
+          fromDate: _fromDate,
+          toDate: _toDate,
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        const SliverAppBar(
+        SliverAppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Orders',
-            style: TextStyle(
+            style: AppStyles.heading3SemiBold18(context).copyWith(
               color: AppColors.darkNavy,
-              fontSize: 18,
               fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
             ),
           ),
           backgroundColor: AppColors.backgroundLight,
           elevation: 0,
           floating: true,
-          iconTheme: IconThemeData(color: AppColors.darkNavy),
+          iconTheme: const IconThemeData(color: AppColors.darkNavy),
         ),
         SliverPersistentHeader(
           pinned: true,
           delegate: _OrdersStickyHeaderDelegate(
-            height: 142.0,
+            height: 156.0,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(
                 children: [
-                  OrdersSearchBar(
-                    onChanged: (query) {
-                      context
-                          .read<OrdersCubit>()
-                          .fetchOrders(search: query, status: _selectedStatus);
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OrdersSearchBar(
+                          onChanged: (query) {
+                            context.read<OrdersCubit>().fetchOrders(
+                                  search: query,
+                                  status: _selectedStatus,
+                                  paymentStatus: _selectedPaymentStatus,
+                                  orderType: _selectedOrderType,
+                                  fromDate: _fromDate,
+                                  toDate: _toDate,
+                                );
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      OrdersFilterButton(
+                        hasActiveFilters: _hasActiveExtraFilters,
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            builder: (_) => OrdersFilterBottomSheet(
+                              selectedPaymentStatus: _selectedPaymentStatus,
+                              selectedOrderType: _selectedOrderType,
+                              fromDate: _fromDate,
+                              toDate: _toDate,
+                              onApply: (paymentStatus, orderType, from, to) {
+                                setState(() {
+                                  _selectedPaymentStatus = paymentStatus;
+                                  _selectedOrderType = orderType;
+                                  _fromDate = from;
+                                  _toDate = to;
+                                });
+                                _applyFilters();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   OrdersFilterTabs(
                     selectedStatus: _selectedStatus,
                     onStatusChanged: (status) {
                       setState(() {
                         _selectedStatus = status;
                       });
-                      context
-                          .read<OrdersCubit>()
-                          .fetchOrders(status: _selectedStatus);
+                      _applyFilters();
                     },
                   ),
                 ],
@@ -72,34 +133,46 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
         ),
         BlocBuilder<OrdersCubit, OrdersState>(
           builder: (context, state) {
-            if (state is OrdersLoading) {
-              return const SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
-              );
-            } else if (state is OrdersError) {
+            final isLoading = state is OrdersLoading || state is OrdersInitial;
+            var displayOrders = dummyOrders;
+
+            if (state is OrdersError) {
               return SliverFillRemaining(
                 child: Center(
                   child: Text(
                     state.failure.message,
-                    style: const TextStyle(color: AppColors.error),
+                    style: AppStyles.body2Medium14(context).copyWith(
+                      color: AppColors.error,
+                    ),
                   ),
                 ),
               );
             } else if (state is OrdersLoaded) {
-              final orders = state.orders;
+              displayOrders = state.orders;
+            }
 
-              if (orders.isEmpty) {
-                return const SliverFillRemaining(
-                  child: Center(
-                    child: Text(
-                      'No orders found.',
-                      style: TextStyle(color: AppColors.mutedGray),
+            if (!isLoading && displayOrders.isEmpty) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    'No orders found.',
+                    style: AppStyles.body2Medium14(context).copyWith(
+                      color: AppColors.mutedGray,
                     ),
                   ),
-                );
-              }
+                ),
+              );
+            }
 
-              return SliverPadding(
+            return Skeletonizer.sliver(
+              enabled: isLoading,
+              containersColor: Colors.grey.shade100,
+              ignoreContainers: false,
+              effect: ShimmerEffect(
+                baseColor: Colors.grey.shade200,
+                highlightColor: Colors.grey.shade50,
+              ),
+              child: SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
                     .copyWith(bottom: 80),
                 sliver: SliverList(
@@ -107,16 +180,14 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
                     (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
-                        child: OrderItemCard(order: orders[index]),
+                        child: OrderItemCard(order: displayOrders[index]),
                       );
                     },
-                    childCount: orders.length,
+                    childCount: displayOrders.length,
                   ),
                 ),
-              );
-            }
-
-            return const SliverToBoxAdapter(child: SizedBox.shrink());
+              ),
+            );
           },
         ),
       ],

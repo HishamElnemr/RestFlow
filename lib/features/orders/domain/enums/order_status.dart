@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum OrderStatus {
-  @JsonValue(1)
+  @JsonValue('Pending')
   pending(1),
-  @JsonValue(2)
+  @JsonValue('Completed')
   completed(2),
-  @JsonValue(3)
+  @JsonValue('Cancelled')
   cancelled(3);
 
   final int value;

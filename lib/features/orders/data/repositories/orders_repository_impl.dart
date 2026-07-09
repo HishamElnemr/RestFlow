@@ -25,9 +25,9 @@ class OrdersRepositoryImpl implements OrdersRepository {
     try {
       final response = await _apiService.getOrders(
         search: search,
-        status: status,
-        paymentStatus: paymentStatus,
-        orderType: orderType,
+        status: status?.value,
+        paymentStatus: paymentStatus?.value,
+        orderType: orderType?.value,
         fromDate: fromDate,
         toDate: toDate,
       );

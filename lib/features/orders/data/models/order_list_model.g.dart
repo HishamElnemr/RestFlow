@@ -36,18 +36,18 @@ Map<String, dynamic> _$OrderListModelToJson(OrderListModel instance) =>
     };
 
 const _$OrderTypeEnumMap = {
-  OrderType.dineIn: 1,
-  OrderType.takeaway: 2,
-  OrderType.delivery: 3,
+  OrderType.dineIn: 'DineIn',
+  OrderType.takeaway: 'Takeaway',
+  OrderType.delivery: 'Delivery',
 };
 
 const _$OrderStatusEnumMap = {
-  OrderStatus.pending: 1,
-  OrderStatus.completed: 2,
-  OrderStatus.cancelled: 3,
+  OrderStatus.pending: 'Pending',
+  OrderStatus.completed: 'Completed',
+  OrderStatus.cancelled: 'Cancelled',
 };
 
 const _$PaymentStatusEnumMap = {
-  PaymentStatus.unpaid: 1,
-  PaymentStatus.paid: 2,
+  PaymentStatus.unpaid: 'Unpaid',
+  PaymentStatus.paid: 'Paid',
 };

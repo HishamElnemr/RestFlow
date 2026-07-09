@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/app_styles.dart';
 
 class OrdersSearchBar extends StatelessWidget {
   const OrdersSearchBar({super.key, this.onChanged});
@@ -20,22 +22,26 @@ class OrdersSearchBar extends StatelessWidget {
       ),
       child: TextField(
         onChanged: onChanged,
-        style: const TextStyle(
+        cursorColor: AppColors.primary,
+        style: AppStyles.body2Medium14(context).copyWith(
           color: AppColors.darkNavy,
-          fontSize: 14,
-          fontFamily: 'Inter',
         ),
         decoration: InputDecoration(
           hintText: 'Search by order number...',
-          hintStyle: TextStyle(
-            color: AppColors.darkNavy.withOpacity(0.5),
-            fontSize: 14,
-            fontFamily: 'Inter',
+          hintStyle: AppStyles.body2Medium14(context).copyWith(
+            color: AppColors.darkNavy.withAlpha(127),
           ),
-          prefixIcon: Icon(
-            Icons.search_rounded,
-            color: AppColors.darkNavy.withOpacity(0.5),
-            size: 20,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(13),
+            child: SvgPicture.asset(
+              'assets/images/search_normal.svg',
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                AppColors.darkNavy.withAlpha(127),
+                BlendMode.srcIn,
+              ),
+            ),
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../../../core/dummy_data/dummy_orders.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';
@@ -63,6 +62,32 @@ class RecentOrdersList extends StatelessWidget {
           const Divider(height: 1, color: AppColors.borderLight),
           BlocBuilder<OrdersCubit, OrdersState>(
             builder: (context, state) {
+              if (state is OrdersError) {
+                return Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Center(
+                    child: Text(
+                      state.failure.message,
+                      style: const TextStyle(color: AppColors.error),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              }
+
+              if (state is OrdersError) {
+                return Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Center(
+                    child: Text(
+                      state.failure.message,
+                      style: const TextStyle(color: AppColors.error),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              }
+
               final isLoading =
                   state is OrdersLoading || state is OrdersInitial;
 

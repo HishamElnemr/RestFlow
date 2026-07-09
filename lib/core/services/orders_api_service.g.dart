@@ -22,9 +22,9 @@ class _OrdersApiService implements OrdersApiService {
   @override
   Future<List<OrderListModel>> getOrders({
     String? search,
-    OrderStatus? status,
-    PaymentStatus? paymentStatus,
-    OrderType? orderType,
+    int? status,
+    int? paymentStatus,
+    int? orderType,
     String? fromDate,
     String? toDate,
   }) async {

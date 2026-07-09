@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum PaymentStatus {
-  @JsonValue(1)
+  @JsonValue('Unpaid')
   unpaid(1),
-  @JsonValue(2)
+  @JsonValue('Paid')
   paid(2);
 
   final int value;
