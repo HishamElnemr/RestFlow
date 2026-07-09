@@ -17,9 +17,8 @@ import '../../features/home/presentation/pages/employee_home_page.dart';
 import '../../features/inventory/presentation/pages/inventory_test_page.dart';
 import '../../features/inventory/presentation/pages/low_stock_alerts_page.dart';
 import '../../features/inventory/presentation/pages/inventory_page.dart';
-import '../../features/menu/presentation/pages/menu_orders_page.dart';
-import '../../features/menu/presentation/pages/menu_page.dart';
 import '../../features/layout/presentation/pages/layout_page.dart';
+import '../../features/menu/presentation/pages/menu_page.dart';
 import '../../features/notification/presentation/pages/notifications_page.dart';
 import '../../features/notification/presentation/pages/notification_settings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
@@ -114,11 +113,6 @@ class AppRoutes {
       case RoutesName.inventory:
         return MaterialPageRoute(
           builder: (_) => const InventoryPage(),
-          settings: settings,
-        );
-      case RoutesName.menuOrders:
-        return MaterialPageRoute(
-          builder: (_) => const MenuOrdersPage(),
           settings: settings,
         );
       case RoutesName.menu:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_flow/features/menu/presentation/pages/menu_page.dart';
 import 'package:rest_flow/features/owner_dashboard/presentation/pages/owner_dashboard_page.dart';
 import 'package:rest_flow/features/orders/presentation/pages/orders_page.dart';
 import 'package:rest_flow/features/ai/presentation/pages/ai_page.dart';
@@ -17,7 +18,7 @@ class LayoutPageBody extends StatelessWidget {
           children: const [
             OwnerDashboardPage(),
             OrdersPage(),
-            Center(child: Text('Menu Page (Coming Soon)')),
+            MenuPage(),
             AiPage(),
             Center(child: Text('More Settings (Coming Soon)')),
           ],
