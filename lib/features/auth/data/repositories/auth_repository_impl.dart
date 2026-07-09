@@ -38,6 +38,39 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthApiService _apiService;
   final SecureStorageService _secureStorage;
 
+
+    @override
+  Future<Either<AppFailure, AuthResponseEntity>> login(
+    LoginRequestEntity request,
+  ) async {
+    try {
+      final response = await _apiService.login(
+        LoginRequestModel.fromEntity(request),
+      );
+      final entity = response.toEntity();
+      await _saveTokens(entity);
+      return Right(entity);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, AuthResponseEntity>> refreshToken(
+    RefreshTokenRequestEntity request,
+  ) async {
+    try {
+      final response = await _apiService.refreshToken(
+        RefreshTokenRequestModel.fromEntity(request),
+      );
+      final entity = response.toEntity();
+      await _saveTokens(entity);
+      return Right(entity);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error));
+    }
+  }
+
   @override
   Future<Either<AppFailure, AuthResponseEntity>> register(
     RegisterRequestEntity request,
@@ -80,37 +113,7 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  @override
-  Future<Either<AppFailure, AuthResponseEntity>> login(
-    LoginRequestEntity request,
-  ) async {
-    try {
-      final response = await _apiService.login(
-        LoginRequestModel.fromEntity(request),
-      );
-      final entity = response.toEntity();
-      await _saveTokens(entity);
-      return Right(entity);
-    } catch (error) {
-      return Left(ErrorHandler.handle(error));
-    }
-  }
 
-  @override
-  Future<Either<AppFailure, AuthResponseEntity>> refreshToken(
-    RefreshTokenRequestEntity request,
-  ) async {
-    try {
-      final response = await _apiService.refreshToken(
-        RefreshTokenRequestModel.fromEntity(request),
-      );
-      final entity = response.toEntity();
-      await _saveTokens(entity);
-      return Right(entity);
-    } catch (error) {
-      return Left(ErrorHandler.handle(error));
-    }
-  }
 
   @override
   Future<Either<AppFailure, AuthResponseEntity>> forgotPassword(

@@ -110,26 +110,22 @@ class NotificationItemCard extends StatelessWidget {
     );
   }
 
-  _NotificationConfig _getNotificationConfig(int type) {
+  _NotificationConfig _getNotificationConfig(String type) {
     switch (type) {
-      case 1: // LowStock
+      case 'Inventory':
         return _NotificationConfig(
           bgColor: const Color(0xFFFAEEDA),
           iconColor: const Color(0xFFD97706),
           icon: Icons.warning_amber_rounded,
         );
-      case 2: // OutOfStock
-        return _NotificationConfig(
-          bgColor: const Color(0xFFFCEBEB),
-          iconColor: const Color(0xFFDC2626),
-          icon: Icons.error_outline_rounded,
-        );
-      case 3: // NewOrder
+      case 'Order':
         return _NotificationConfig(
           bgColor: const Color(0xFFE6F1FB),
           iconColor: const Color(0xFF185FA5),
           icon: Icons.shopping_bag_outlined,
         );
+      case 'User':
+      case 'General':
       default:
         return _NotificationConfig(
           bgColor: const Color(0xFFF3F4F6),

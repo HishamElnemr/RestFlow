@@ -81,13 +81,13 @@ class OnboardingCarouselItem extends StatelessWidget {
             child: Text(
               description,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.mutedGray,
                         height: 1.5,
                         fontFamily: 'Inter',
                       ) ??
                   const TextStyle(
-                    fontSize: 16,
+                    fontSize: 12,
                     height: 1.5,
                     color: AppColors.mutedGray,
                     fontFamily: 'Inter',
