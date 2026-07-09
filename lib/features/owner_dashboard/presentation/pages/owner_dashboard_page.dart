@@ -4,6 +4,7 @@ import 'package:rest_flow/features/inventory/presentation/cubit/low_stock_count/
 import 'package:rest_flow/features/menu/presentation/cubit/menu_products/menu_products_cubit.dart';
 import 'package:rest_flow/features/orders/presentation/cubit/orders_cubit.dart';
 import 'package:rest_flow/features/reports/presentation/cubit/reports/reports_cubit.dart';
+import 'package:rest_flow/features/ai/presentation/cubit/ai_dashboard/ai_dashboard_cubit.dart';
 import '../../../../core/services/getit_services.dart';
 import '../../../../core/theme/app_colors.dart';
 
@@ -20,6 +21,7 @@ class OwnerDashboardPage extends StatelessWidget {
         BlocProvider(create: (context) => getIt<OrdersCubit>()..fetchOrders()),
         BlocProvider(create: (context) => getIt<MenuProductsCubit>()..fetchProducts()),
         BlocProvider(create: (context) => getIt<LowStockCountCubit>()..fetchLowStockCount()),
+        BlocProvider(create: (context) => getIt<AiDashboardCubit>()..fetchInsights()),
       ],
       child: const Scaffold(
         backgroundColor: AppColors.backgroundLight,

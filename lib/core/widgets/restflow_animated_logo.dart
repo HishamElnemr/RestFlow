@@ -25,7 +25,7 @@ class _RestflowAnimatedLogoState extends State<RestflowAnimatedLogo>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800),
+      duration: const Duration(milliseconds: 1100),
     );
 
     _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(

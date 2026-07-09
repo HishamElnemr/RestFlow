@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/routes/routes_name.dart';
-import 'ai_insight_card.dart';
+import 'dashboard_ai_insight_section.dart';
 import 'dashboard_stat_cards_row.dart';
 import 'owner_dashboard_header.dart';
 import 'owner_dashboard_notifications_widget.dart';
@@ -25,7 +24,7 @@ class OwnerDashboardPageBody extends StatelessWidget {
           const SizedBox(height: 16),
           const DashboardStatCardsRow(),
           const SizedBox(height: 16),
-          const AiInsightCard(),
+          const DashboardAiInsightSection(),
           const SizedBox(height: 20),
           const OwnerDashboardNotificationsWidget(),
           const SizedBox(height: 20),

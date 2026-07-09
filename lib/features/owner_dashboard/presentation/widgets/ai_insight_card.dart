@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/app_styles.dart';
 
 class AiInsightCard extends StatelessWidget {
-  const AiInsightCard({super.key, this.onViewAllTap});
+  const AiInsightCard({
+    super.key,
+    required this.insightText,
+    this.onViewAllTap,
+  });
 
+  final String insightText;
   final VoidCallback? onViewAllTap;
 
   @override
@@ -39,23 +45,21 @@ class AiInsightCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'AI Co-Pilot Insight',
-                  style: TextStyle(
+                  style: AppStyles.captionSemiBold12(context).copyWith(
                     color: AppColors.purpleDeepAccent,
                     fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Inter',
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'Your Margherita Pizza is running low and typically sells out by 6 PM on Mondays. Consider increasing prep quantities.',
-                  style: TextStyle(
+                Text(
+                  insightText,
+                  style: AppStyles.captionSemiBold12(context).copyWith(
                     color: AppColors.darkNavy,
                     fontSize: 13,
                     height: 1.4,
-                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -64,13 +68,11 @@ class AiInsightCard extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         'View all insights',
-                        style: TextStyle(
+                        style: AppStyles.captionSemiBold12(context).copyWith(
                           color: AppColors.purple,
                           fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Inter',
                         ),
                       ),
                       const SizedBox(width: 4),
