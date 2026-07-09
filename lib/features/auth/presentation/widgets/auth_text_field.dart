@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/app_styles.dart';
 
-/// Reusable text field component for authentication screens
-///
-/// Ensures uniform spacing, border styling, and focus colors.
 class AuthTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -34,17 +32,9 @@ class AuthTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.darkNavy,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Inter',
-              ) ??
-              const TextStyle(
-                color: AppColors.darkNavy,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                fontFamily: 'Inter',
-              ),
+          style: AppStyles.body2Medium14(context).copyWith(
+            color: AppColors.darkNavy,
+          ),
         ),
         const SizedBox(height: 8),
         TextFormField(
@@ -52,17 +42,14 @@ class AuthTextField extends StatelessWidget {
           obscureText: obscureText,
           keyboardType: keyboardType,
           validator: validator,
-          style: const TextStyle(
+          cursorColor: AppColors.primary,
+          style: AppStyles.body2Regular14(context).copyWith(
             color: AppColors.darkNavy,
-            fontSize: 14,
-            fontFamily: 'Inter',
           ),
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: const TextStyle(
+            hintStyle: AppStyles.body2Regular14(context).copyWith(
               color: AppColors.mutedGray,
-              fontSize: 14,
-              fontFamily: 'Inter',
             ),
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,

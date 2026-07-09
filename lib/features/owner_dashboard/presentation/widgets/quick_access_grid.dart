@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/app_styles.dart';
+import 'quick_access_item_tile.dart';
 
 class QuickAccessGrid extends StatelessWidget {
   const QuickAccessGrid({
@@ -24,19 +27,19 @@ class QuickAccessGrid extends StatelessWidget {
     final items = [
       _QuickAccessData(
         title: 'Orders',
-        icon: Icons.shopping_cart_outlined,
+        svgPath: 'assets/images/onboarding2.svg',
         color: AppColors.primary,
         onTap: onOrdersTap,
       ),
       _QuickAccessData(
         title: 'Menu',
-        icon: Icons.restaurant_menu_rounded,
+        svgPath: 'assets/images/menu.svg',
         color: AppColors.orange,
         onTap: onMenuTap,
       ),
       _QuickAccessData(
         title: 'Inventory',
-        icon: Icons.inventory_2_outlined,
+        svgPath: 'assets/images/onboarding3.svg',
         color: AppColors.oliveGreen,
         onTap: onInventoryTap,
       ),
@@ -63,13 +66,12 @@ class QuickAccessGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Quick Access',
-          style: TextStyle(
+          style: AppStyles.body1Medium16(context).copyWith(
             color: AppColors.darkNavy,
-            fontSize: 15,
             fontWeight: FontWeight.bold,
-            fontFamily: 'Inter',
+            fontSize: 15,
           ),
         ),
         const SizedBox(height: 12),
@@ -85,43 +87,12 @@ class QuickAccessGrid extends StatelessWidget {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
-            return InkWell(
+            return QuickAccessItemTile(
+              title: item.title,
+              icon: item.icon,
+              svgPath: item.svgPath,
+              color: item.color,
               onTap: item.onTap,
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.borderLight),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.01),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      item.icon,
-                      color: item.color,
-                      size: 26,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      item.title,
-                      style: const TextStyle(
-                        color: AppColors.darkNavy,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             );
           },
         ),
@@ -133,12 +104,15 @@ class QuickAccessGrid extends StatelessWidget {
 class _QuickAccessData {
   _QuickAccessData({
     required this.title,
-    required this.icon,
+    this.icon,
+    this.svgPath,
     required this.color,
     this.onTap,
   });
+  
   final String title;
-  final IconData icon;
+  final IconData? icon;
+  final String? svgPath;
   final Color color;
   final VoidCallback? onTap;
 }

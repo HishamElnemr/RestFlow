@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_flow/firebase_options.dart';
 
+import 'core/theme/app_colors.dart';
 import 'core/routes/app_routes.dart';
 import 'core/routes/routes_name.dart';
 import 'core/services/getit_services.dart';
@@ -67,7 +68,18 @@ class MyApp extends StatelessWidget {
       child: MaterialApp( 
         title: 'Restflow',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
+        theme: ThemeData(
+          primaryColor: AppColors.primary,
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: AppColors.primary,
+            selectionColor: AppColors.primary.withOpacity(0.3),
+            selectionHandleColor: AppColors.primary,
+          ),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: AppColors.primary,
+            primary: AppColors.primary,
+          ),
+        ),
         initialRoute: RoutesName.splash,
         onGenerateRoute: AppRoutes.generateRoute,
       ),

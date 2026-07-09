@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../utils/app_styles.dart';
 
-/// Reusable generic text field component
-///
-/// Ensures uniform spacing, border styling, and focus colors.
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -36,17 +34,9 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.darkNavy,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Inter',
-              ) ??
-              const TextStyle(
-                color: AppColors.darkNavy,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                fontFamily: 'Inter',
-              ),
+          style: AppStyles.body2Medium14(context).copyWith(
+            color: AppColors.darkNavy,
+          ),
         ),
         const SizedBox(height: 8),
         TextFormField(
@@ -55,17 +45,14 @@ class CustomTextField extends StatelessWidget {
           keyboardType: keyboardType,
           validator: validator,
           autovalidateMode: autovalidateMode,
-          style: const TextStyle(
+          cursorColor: AppColors.primary,
+          style: AppStyles.body2Regular14(context).copyWith(
             color: AppColors.darkNavy,
-            fontSize: 14,
-            fontFamily: 'Inter',
           ),
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: const TextStyle(
+            hintStyle: AppStyles.body2Regular14(context).copyWith(
               color: AppColors.mutedGray,
-              fontSize: 14,
-              fontFamily: 'Inter',
             ),
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
