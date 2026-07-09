@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:rest_flow/core/utils/app_styles.dart';
+
 import '../../../../core/theme/app_colors.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
 
 class StatCard extends StatelessWidget {
   const StatCard({
     super.key,
-    required this.icon,
+    this.icon,
+    this.svgAsset,
     required this.title,
     required this.value,
     required this.iconColor,
     required this.iconBgColor,
     this.borderColor,
-  });
+  }) : assert(icon != null || svgAsset != null, 'Either icon or svgAsset must be provided');
 
-  final IconData icon;
+  final IconData? icon;
+  final String? svgAsset;
   final String title;
   final String value;
   final Color iconColor;
@@ -48,32 +54,35 @@ class StatCard extends StatelessWidget {
               color: iconBgColor,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 20,
-            ),
+            child: svgAsset != null
+                ? SvgPicture.asset(
+                    svgAsset!,
+                    width: 20,
+                    height: 20,
+                    colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+                  )
+                : Icon(
+                    icon,
+                    color: iconColor,
+                    size: 20,
+                  ),
           ),
           const SizedBox(height: 12),
           Text(
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: AppStyles.captionSemiBold12(context).copyWith(
               color: AppColors.mutedGray,
-              fontSize: 12,
               fontWeight: FontWeight.w500,
-              fontFamily: 'Inter',
             ),
           ),
           const SizedBox(height: 4),
           Text(
             value,
-            style: const TextStyle(
+            style: AppStyles.heading2Bold24(context).copyWith(
               color: AppColors.darkNavy,
               fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
             ),
           ),
         ],
