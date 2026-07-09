@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_flow/features/reports/presentation/cubit/reports/reports_cubit.dart';
 import 'package:rest_flow/features/reports/presentation/cubit/reports/reports_state.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../core/theme/app_colors.dart';
-
+import '../../../../core/dummy_data/financial_summary_dummy.dart';
+import 'revenue_card_header.dart';
+import 'revenue_card_content.dart';
 
 class RevenueCard extends StatefulWidget {
   const RevenueCard({super.key});
@@ -47,6 +50,15 @@ class _RevenueCardState extends State<RevenueCard> {
         );
   }
 
+  void _onFilterChanged(String newFilter) {
+    if (_selectedFilter != newFilter) {
+      setState(() {
+        _selectedFilter = newFilter;
+      });
+      _fetchRevenue();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,68 +78,9 @@ class _RevenueCardState extends State<RevenueCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  'Total Revenue',
-                  style: TextStyle(
-                    color: AppColors.whiteOpacity80,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                padding: const EdgeInsets.all(2),
-                child: Row(
-                  children: ['Today', 'Week', 'Month'].map((filter) {
-                    final isSelected = _selectedFilter == filter;
-                    return GestureDetector(
-                      onTap: () {
-                        if (_selectedFilter != filter) {
-                          setState(() {
-                            _selectedFilter = filter;
-                          });
-                          _fetchRevenue();
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.white
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 6,
-                        ),
-                        child: Text(
-                          filter,
-                          style: TextStyle(
-                            color: isSelected
-                                ? AppColors.primary
-                                : AppColors.whiteOpacity80,
-                            fontSize: 11,
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.w500,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
+          RevenueCardHeader(
+            selectedFilter: _selectedFilter,
+            onFilterChanged: _onFilterChanged,
           ),
           const SizedBox(height: 12),
           BlocBuilder<ReportsCubit, ReportsState>(
@@ -146,18 +99,6 @@ class _RevenueCardState extends State<RevenueCard> {
               return false;
             },
             builder: (context, state) {
-              if (state is ReportsLoading &&
-                  state.action == ReportsAction.financialSummary) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24.0),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.white,
-                    ),
-                  ),
-                );
-              }
-
               if (state is ReportsFailure &&
                   state.action == ReportsAction.financialSummary) {
                 return const Padding(
@@ -171,57 +112,20 @@ class _RevenueCardState extends State<RevenueCard> {
                 );
               }
 
-              if (state is FinancialSummarySuccess) {
-                final summary = state.summary;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '\$${summary.totalRevenue.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins',
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Icon(
-                          summary.revenueGrowth.startsWith('-')
-                              ? Icons.trending_down_rounded
-                              : Icons.trending_up_rounded,
-                          color: AppColors.whiteOpacity80,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          summary.revenueGrowth,
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'vs previous period',
-                          style: TextStyle(
-                            color: AppColors.whiteOpacity80,
-                            fontSize: 13,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              }
+              final isLoading = state is ReportsLoading &&
+                  state.action == ReportsAction.financialSummary;
+              final summary = state is FinancialSummarySuccess
+                  ? state.summary
+                  : FinancialSummaryDummy.dummy;
 
-              return const SizedBox.shrink();
+              return Skeletonizer(
+                enabled: isLoading,
+                effect: ShimmerEffect(
+                  baseColor: AppColors.white.withOpacity(0.3),
+                  highlightColor: AppColors.whiteOpacity80,
+                ),
+                child: RevenueCardContent(summary: summary),
+              );
             },
           ),
         ],
