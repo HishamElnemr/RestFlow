@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rest_flow/features/customers/presentation/pages/customers_page.dart';
 import 'package:rest_flow/features/settings/presentation/pages/notification_settings_page.dart';
+import 'package:rest_flow/features/settings/presentation/pages/user_profile_page.dart';
+import 'package:rest_flow/features/more/presentation/pages/restaurant_info_page.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import 'more_list_item.dart';
@@ -60,6 +62,32 @@ class MoreListSection extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const NotificationSettingsPage(),
+                ),
+              );
+            },
+            showDivider: true,
+          ),
+          MoreListItem(
+            icon: Icons.person_outline,
+            iconColor: AppColors.primary,
+            title: 'Profile',
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const UserProfilePage(),
+                ),
+              );
+            },
+            showDivider: true,
+          ),
+          MoreListItem(
+            icon: Icons.storefront_outlined,
+            iconColor: AppColors.orange,
+            title: 'Restaurant Details',
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const RestaurantInfoPage(),
                 ),
               );
             },
