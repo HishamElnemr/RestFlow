@@ -6,12 +6,12 @@ import '../../../../core/routes/routes_name.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/string_extensions.dart';
-import '../../../notification/presentation/cubit/notifications_list/notifications_list_cubit.dart';
-import '../../../notification/presentation/cubit/notifications_list/notifications_list_state.dart';
-import '../../../notification/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
-import '../../../notification/presentation/cubit/restaurant_settings/restaurant_settings_state.dart';
-import '../../../notification/presentation/cubit/user_profile_settings/user_profile_settings_cubit.dart';
-import '../../../notification/presentation/cubit/user_profile_settings/user_profile_settings_state.dart';
+import '../../../settings/presentation/cubit/notifications_list/notifications_list_cubit.dart';
+import '../../../settings/presentation/cubit/notifications_list/notifications_list_state.dart';
+import '../../../settings/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
+import '../../../settings/presentation/cubit/restaurant_settings/restaurant_settings_state.dart';
+import '../../../settings/presentation/cubit/user_profile_settings/user_profile_settings_cubit.dart';
+import '../../../settings/presentation/cubit/user_profile_settings/user_profile_settings_state.dart';
 import 'header_avatar_button.dart';
 import 'header_notification_button.dart';
 

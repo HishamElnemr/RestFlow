@@ -1,4 +1,4 @@
-import 'package:rest_flow/features/notification/domain/entities/notification_settings_entity.dart';
+import 'package:rest_flow/features/settings/domain/entities/notification_settings_entity.dart';
 
 class NotificationSettingsModel extends NotificationSettingsEntity {
   const NotificationSettingsModel({

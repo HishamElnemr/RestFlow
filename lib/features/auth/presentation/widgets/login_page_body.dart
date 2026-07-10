@@ -9,7 +9,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/jwt_utils.dart';
 import '../../../../core/widgets/custom_primary_button.dart';
 import '../../../../core/widgets/restflow_logo.dart';
-import '../../../../features/notification/domain/repositories/notifications_repository.dart';
+import '../../../settings/domain/repositories/notifications_repository.dart';
 import '../cubit/login/login_cubit.dart';
 import '../cubit/login/login_state.dart';
 import 'login_appbar.dart';

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../features/notification/data/models/notification_list_response_model.dart';
+import '../../features/settings/data/models/notification_list_response_model.dart';
 import '../constants/api_constants.dart';
 
 part 'notifications_api_service.g.dart';

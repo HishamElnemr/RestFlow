@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rest_flow/features/notification/presentation/widgets/notification_item_card.dart';
+import 'package:rest_flow/features/settings/presentation/widgets/notification_item_card.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../cubit/notifications_list/notifications_list_cubit.dart';

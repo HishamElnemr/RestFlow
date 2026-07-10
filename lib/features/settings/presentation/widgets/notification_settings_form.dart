@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rest_flow/features/notification/domain/entities/notification_settings_entity.dart';
+import 'package:rest_flow/features/settings/domain/entities/notification_settings_entity.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';

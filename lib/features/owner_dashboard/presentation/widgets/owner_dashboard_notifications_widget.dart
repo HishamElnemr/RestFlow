@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/routes/routes_name.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../notification/presentation/cubit/notifications_list/notifications_list_cubit.dart';
-import '../../../notification/presentation/cubit/notifications_list/notifications_list_state.dart';
-import '../../../notification/presentation/widgets/notification_item_card.dart';
-import '../../../notification/domain/entities/notification_entity.dart';
+import '../../../settings/presentation/cubit/notifications_list/notifications_list_cubit.dart';
+import '../../../settings/presentation/cubit/notifications_list/notifications_list_state.dart';
+import '../../../settings/presentation/widgets/notification_item_card.dart';
+import '../../../settings/domain/entities/notification_entity.dart';
 
 class OwnerDashboardNotificationsWidget extends StatefulWidget {
   const OwnerDashboardNotificationsWidget({super.key});

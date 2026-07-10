@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:rest_flow/features/notification/domain/entities/notification_entity.dart';
-import 'package:rest_flow/features/notification/domain/entities/notification_list_response_entity.dart';
+import 'package:rest_flow/features/settings/domain/entities/notification_entity.dart';
+import 'package:rest_flow/features/settings/domain/entities/notification_list_response_entity.dart';
 
 import '../../../../../core/errors/app_failure.dart';
 

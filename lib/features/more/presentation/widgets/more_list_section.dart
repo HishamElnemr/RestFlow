@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rest_flow/features/notification/presentation/pages/notification_settings_page.dart';
+import 'package:rest_flow/features/customers/presentation/pages/customers_page.dart';
+import 'package:rest_flow/features/settings/presentation/pages/notification_settings_page.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import 'more_list_item.dart';
@@ -28,7 +29,13 @@ class MoreListSection extends StatelessWidget {
             icon: Icons.people_outline,
             iconColor: AppColors.electricBlue,
             title: 'Customers',
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const CustomersPage(),
+                ),
+              );
+            },
             showDivider: true,
           ),
           MoreListItem(
