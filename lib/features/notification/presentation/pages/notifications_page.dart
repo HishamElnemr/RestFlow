@@ -8,23 +8,9 @@ class NotificationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.backgroundLight,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Notifications',
-          style: TextStyle(
-            color: Color(0xFF1A1A2E),
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'Inter',
-          ),
-        ),
-        iconTheme: const IconThemeData(color: Color(0xFF1A1A2E)),
-      ),
-      body: const SafeArea(
+      body: SafeArea(
         child: NotificationsPageBody(),
       ),
     );

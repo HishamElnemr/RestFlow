@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rest_flow/features/notification/presentation/pages/notification_settings_page.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import 'more_list_item.dart';
@@ -48,7 +49,13 @@ class MoreListSection extends StatelessWidget {
             icon: Icons.notifications_none,
             iconColor: AppColors.electricBlue,
             title: 'Notifications',
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const NotificationSettingsPage(),
+                ),
+              );
+            },
             showDivider: true,
           ),
           MoreListItem(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/app_styles.dart';
 import '../../domain/entities/notification_entity.dart';
 
 class NotificationItemCard extends StatelessWidget {
@@ -23,14 +24,8 @@ class NotificationItemCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: notification.isRead
-              ? Colors.white
-              : const Color(0xFFEFF6FF).withOpacity(0.3),
-          border: const Border(
-            bottom: BorderSide(
-              color: Color(0xFFE0DDD6),
-              width: 1.18,
-            ),
-          ),
+              ? AppColors.white
+              : AppColors.electricBlue.withOpacity(0.1),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,11 +56,9 @@ class NotificationItemCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           notification.title,
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
+                          style: AppStyles.body2Medium14(context).copyWith(
+                            color: AppColors.darkNavy,
                             fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: Color(0xFF1A1A2E),
                           ),
                         ),
                       ),
@@ -84,21 +77,17 @@ class NotificationItemCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     notification.body,
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
+                    style: AppStyles.captionBold12(context).copyWith(
+                      color: AppColors.mutedGray,
                       fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: Color(0xFF5F5E5A),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     _timeAgo(notification.createdAt),
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
+                    style: AppStyles.captionBold12(context).copyWith(
+                      color: AppColors.mutedGray,
                       fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: Color(0xFF5F5E5A),
                     ),
                   ),
                 ],
@@ -114,22 +103,22 @@ class NotificationItemCard extends StatelessWidget {
     switch (type) {
       case 'Inventory':
         return _NotificationConfig(
-          bgColor: const Color(0xFFFAEEDA),
-          iconColor: const Color(0xFFD97706),
+          bgColor: AppColors.cream,
+          iconColor: AppColors.darkOrange,
           icon: Icons.warning_amber_rounded,
         );
       case 'Order':
         return _NotificationConfig(
-          bgColor: const Color(0xFFE6F1FB),
-          iconColor: const Color(0xFF185FA5),
+          bgColor: AppColors.primaryOpacity20,
+          iconColor: AppColors.primary,
           icon: Icons.shopping_bag_outlined,
         );
       case 'User':
       case 'General':
       default:
         return _NotificationConfig(
-          bgColor: const Color(0xFFF3F4F6),
-          iconColor: const Color(0xFF6B7280),
+          bgColor: AppColors.surfaceLight,
+          iconColor: AppColors.mutedGray,
           icon: Icons.notifications_none_rounded,
         );
     }
