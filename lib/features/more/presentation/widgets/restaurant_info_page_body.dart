@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_flow/features/settings/domain/entities/restaurant_settings_entity.dart';
+import 'package:rest_flow/features/settings/domain/entities/update_restaurant_settings_request_entity.dart';
+import 'package:rest_flow/features/settings/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
+import 'package:rest_flow/features/settings/presentation/cubit/restaurant_settings/restaurant_settings_state.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/dummy_data/dummy_restaurant_settings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_sliver_app_bar.dart';
-import '../../settings/domain/entities/restaurant_settings_entity.dart';
-import '../../settings/domain/entities/update_restaurant_settings_request_entity.dart';
-import '../../settings/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
-import '../../settings/presentation/cubit/restaurant_settings/restaurant_settings_state.dart';
 import 'restaurant_info_form.dart';
 import 'restaurant_info_header.dart';
 import 'restaurant_info_save_button.dart';

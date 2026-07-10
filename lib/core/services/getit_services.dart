@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rest_flow/features/products/data/data_sources/products_remote_data_source.dart';
+import 'package:rest_flow/features/products/data/repositories/products_repository_impl.dart';
+import 'package:rest_flow/features/products/domain/repositories/products_repository.dart';
+import 'package:rest_flow/features/products/presentation/cubit/products/products_cubit.dart';
 
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
@@ -231,7 +235,6 @@ void setupGetIt() {
     () => ReportsCubit(getIt<ReportsRepository>()),
   );
 
-  // ── Menu ──────────────────────────────────────────────────────────────────
   getIt.registerLazySingleton<MenuApiService>(
     () => MenuApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
@@ -250,5 +253,17 @@ void setupGetIt() {
 
   getIt.registerFactory<ProductIngredientsCubit>(
     () => ProductIngredientsCubit(getIt<MenuRepository>()),
+  );
+
+  getIt.registerLazySingleton<ProductsRemoteDataSource>(
+    () => ProductsRemoteDataSourceImpl(getIt<Dio>()),
+  );
+
+  getIt.registerLazySingleton<ProductsRepository>(
+    () => ProductsRepositoryImpl(getIt<ProductsRemoteDataSource>()),
+  );
+
+  getIt.registerFactory<ProductsCubit>(
+    () => ProductsCubit(getIt<ProductsRepository>()),
   );
 }
