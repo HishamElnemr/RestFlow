@@ -52,6 +52,14 @@ abstract class AppStyles {
     letterSpacing: 0,
   );
 
+  static TextStyle heading3Medium22(BuildContext context) => TextStyle(
+    fontSize: getResponsiveFontSize(context, fontSize: 22),
+    fontFamily: _bodyFontFamily,
+    fontWeight: FontWeight.w500,
+    height: 1.4,
+    letterSpacing: 0,
+  );
+
   static TextStyle heading3Bold18(BuildContext context) => TextStyle(
     fontSize: getResponsiveFontSize(context, fontSize: 18),
     fontFamily: _headingFontFamily,
@@ -128,6 +136,14 @@ abstract class AppStyles {
     fontSize: getResponsiveFontSize(context, fontSize: 14),
     fontFamily: _bodyFontFamily,
     fontWeight: FontWeight.w400,
+    height: 1.5,
+    letterSpacing: 0,
+  );
+
+  static TextStyle captionBold12(BuildContext context) => TextStyle(
+    fontSize: getResponsiveFontSize(context, fontSize: 12),
+    fontFamily: _bodyFontFamily,
+    fontWeight: FontWeight.w700,
     height: 1.5,
     letterSpacing: 0,
   );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/theme/app_colors.dart';
+import 'nav_bar_item.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
@@ -26,35 +28,35 @@ class CustomBottomNavBar extends StatelessWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _NavBarItem(
+              NavBarItem(
                 icon: Icons.grid_view_rounded,
                 label: 'Dashboard',
                 isSelected: currentIndex == 0,
                 onTap: () => onTap(0),
               ),
-              _NavBarItem(
-                icon: Icons.shopping_cart_outlined,
+              NavBarItem(
+                svgPath: 'assets/images/onboarding2.svg',
                 label: 'Orders',
                 isSelected: currentIndex == 1,
                 onTap: () => onTap(1),
               ),
-              _NavBarItem(
-                icon: Icons.restaurant_menu_rounded,
+              NavBarItem(
+                svgPath: 'assets/images/menu.svg',
                 label: 'Menu',
                 isSelected: currentIndex == 2,
                 onTap: () => onTap(2),
               ),
-              _NavBarItem(
+              NavBarItem(
                 icon: Icons.auto_awesome_rounded,
                 label: 'AI',
                 isSelected: currentIndex == 3,
                 onTap: () => onTap(3),
               ),
-              _NavBarItem(
+              NavBarItem(
                 icon: Icons.more_horiz_rounded,
                 label: 'More',
                 isSelected: currentIndex == 4,
@@ -62,59 +64,6 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NavBarItem extends StatelessWidget {
-  const _NavBarItem({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeOutQuint,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.1) : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 24,
-              color: isSelected ? AppColors.primary : AppColors.mutedGray,
-            ),
-            if (isSelected) ...[
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Inter',
-                ),
-              ),
-            ],
-          ],
         ),
       ),
     );

@@ -5,6 +5,9 @@ import 'package:rest_flow/features/menu/presentation/cubit/menu_products/menu_pr
 import 'package:rest_flow/features/orders/presentation/cubit/orders_cubit.dart';
 import 'package:rest_flow/features/reports/presentation/cubit/reports/reports_cubit.dart';
 import 'package:rest_flow/features/ai/presentation/cubit/ai_dashboard/ai_dashboard_cubit.dart';
+import 'package:rest_flow/features/notification/presentation/cubit/notifications_list/notifications_list_cubit.dart';
+import 'package:rest_flow/features/notification/presentation/cubit/restaurant_settings/restaurant_settings_cubit.dart';
+import 'package:rest_flow/features/notification/presentation/cubit/user_profile_settings/user_profile_settings_cubit.dart';
 import '../../../../core/services/getit_services.dart';
 import '../../../../core/theme/app_colors.dart';
 
@@ -22,6 +25,9 @@ class OwnerDashboardPage extends StatelessWidget {
         BlocProvider(create: (context) => getIt<MenuProductsCubit>()..fetchProducts()),
         BlocProvider(create: (context) => getIt<LowStockCountCubit>()..fetchLowStockCount()),
         BlocProvider(create: (context) => getIt<AiDashboardCubit>()..fetchInsights()),
+        BlocProvider(create: (context) => getIt<RestaurantSettingsCubit>()..fetchRestaurantSettings()),
+        BlocProvider(create: (context) => getIt<NotificationsListCubit>()..fetchNotifications()),
+        BlocProvider(create: (context) => getIt<UserProfileSettingsCubit>()..fetchUserProfile()),
       ],
       child: const Scaffold(
         backgroundColor: AppColors.backgroundLight,

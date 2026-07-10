@@ -13,29 +13,34 @@ class OwnerDashboardPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const OwnerDashboardHeader(),
-          const SizedBox(height: 20),
-          const RevenueCard(),
-          const SizedBox(height: 16),
-          const DashboardStatCardsRow(),
-          const SizedBox(height: 16),
-          const DashboardAiInsightSection(),
-          const SizedBox(height: 20),
-          const RecentOrdersList(),
-          const SizedBox(height: 24),
-          QuickAccessGrid(
-            onInventoryTap: () {
-              Navigator.pushNamed(context, RoutesName.inventory);
-            },
+    return Column(
+      children: [
+        const OwnerDashboardHeader(),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const RevenueCard(),
+                const SizedBox(height: 16),
+                const DashboardStatCardsRow(),
+                const SizedBox(height: 16),
+                const DashboardAiInsightSection(),
+                const SizedBox(height: 20),
+                const RecentOrdersList(),
+                const SizedBox(height: 24),
+                QuickAccessGrid(
+                  onInventoryTap: () {
+                    Navigator.pushNamed(context, RoutesName.inventory);
+                  },
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
-          const SizedBox(height: 20),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
