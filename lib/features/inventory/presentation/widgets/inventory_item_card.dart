@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rest_flow/features/inventory/domain/entities/inventory_item_list_entity.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class InventoryItemCard extends StatelessWidget {
   const InventoryItemCard({super.key, required this.item});
@@ -15,16 +16,16 @@ class InventoryItemCard extends StatelessWidget {
     final bool isOutOfStock = item.currentQuantity == 0;
 
     Color statusColor = AppColors.successBright;
-    Color statusBgColor = AppColors.successBg;
+    Color statusBgColor = AppColors.white;
     String statusLabel = 'GOOD';
 
     if (isOutOfStock) {
       statusColor = AppColors.error;
-      statusBgColor = AppColors.errorBg;
+      statusBgColor = AppColors.white;
       statusLabel = 'OUT';
     } else if (isLowStock) {
       statusColor = AppColors.amber;
-      statusBgColor = AppColors.warningBg;
+      statusBgColor = AppColors.white;
       statusLabel = 'LOW';
     }
 
@@ -41,7 +42,10 @@ class InventoryItemCard extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 border: Border(
-                  left: BorderSide(color: statusColor, width: 3.5),
+                  left: BorderSide(
+                    color: Skeletonizer.of(context).enabled ? Colors.transparent : statusColor, 
+                    width: 3.5,
+                  ),
                 ),
               ),
               child: Padding(
@@ -83,6 +87,7 @@ class InventoryItemCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: statusBgColor,
                             borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: statusColor, width: 1),
                           ),
                           child: Text(
                             statusLabel,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/custom_search_bar.dart';
 import '../../domain/entities/menu_category_list_entity.dart';
 import 'menu_category_tabs.dart';
-import 'menu_search_bar.dart';
 
 class MenuStickyHeader extends StatelessWidget {
   const MenuStickyHeader({
@@ -24,7 +24,10 @@ class MenuStickyHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         children: [
-          MenuSearchBar(onChanged: onSearchChanged),
+          CustomSearchBar(
+            hintText: 'Search products...',
+            onChanged: onSearchChanged,
+          ),
           const SizedBox(height: 12),
           MenuCategoryTabs(
             selectedCategory: selectedCategory,

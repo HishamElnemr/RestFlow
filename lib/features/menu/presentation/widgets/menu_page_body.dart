@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/app_styles.dart';
+import '../../../../core/widgets/custom_sliver_app_bar.dart';
 import '../../domain/entities/menu_category_list_entity.dart';
 import '../cubit/menu_categories/menu_categories_cubit.dart';
 import '../cubit/menu_products/menu_products_cubit.dart';
@@ -29,19 +29,9 @@ class _MenuPageBodyState extends State<MenuPageBody> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Menu',
-            style: AppStyles.heading3SemiBold18(context).copyWith(
-              color: AppColors.darkNavy,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          backgroundColor: AppColors.backgroundLight,
-          elevation: 0,
-          floating: true,
-          iconTheme: const IconThemeData(color: AppColors.darkNavy),
+        const CustomSliverAppBar(
+          title: 'Menu',
+          showBackButton: false,
         ),
         SliverPersistentHeader(
           pinned: true,

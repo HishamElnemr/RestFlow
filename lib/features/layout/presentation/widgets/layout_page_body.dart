@@ -4,6 +4,7 @@ import 'package:rest_flow/features/menu/presentation/pages/menu_page.dart';
 import 'package:rest_flow/features/owner_dashboard/presentation/pages/owner_dashboard_page.dart';
 import 'package:rest_flow/features/orders/presentation/pages/orders_page.dart';
 import 'package:rest_flow/features/ai/presentation/pages/ai_dashboard_page.dart';
+import 'package:rest_flow/features/more/presentation/pages/more_page.dart';
 import '../cubit/layout_cubit.dart';
 
 class LayoutPageBody extends StatelessWidget {
@@ -20,7 +21,7 @@ class LayoutPageBody extends StatelessWidget {
             OrdersPage(),
             MenuPage(),
             AiDashboardPage(),
-            Center(child: Text('More Settings (Coming Soon)')),
+            MorePage(),
           ],
         );
       },

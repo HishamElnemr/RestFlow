@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_flow/core/widgets/custom_sliver_app_bar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/dummy_data/dummy_ai_dashboard.dart';
@@ -29,7 +30,8 @@ class _AiDashboardPageBodyState extends State<AiDashboardPageBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<AiDashboardCubit, AiDashboardState>(
       builder: (context, state) {
-        final isLoading = state is AiDashboardLoading || state is AiDashboardInitial;
+        final isLoading =
+            state is AiDashboardLoading || state is AiDashboardInitial;
         final isError = state is AiDashboardError;
         final insights = state is AiDashboardSuccess
             ? state.insights
@@ -37,42 +39,73 @@ class _AiDashboardPageBodyState extends State<AiDashboardPageBody> {
 
         return Skeletonizer(
           enabled: isLoading,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24),
-                AiInsightsSectionHeader(
-                  onRefresh: () =>
-                      context.read<AiDashboardCubit>().fetchInsights(),
-                ),
-                const SizedBox(height: 16),
-                if (isError)
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: Text(
-                        state.failure.message,
-                        style: AppStyles.body2Medium14(context).copyWith(
-                          color: AppColors.error,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    const CustomSliverAppBar(
+                      title: 'AI Co-Pilot',
+                      showBackButton: false,
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      sliver: SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 24),
+                            AiInsightsSectionHeader(
+                              onRefresh: () => context
+                                  .read<AiDashboardCubit>()
+                                  .fetchInsights(),
+                            ),
+                            const SizedBox(height: 16),
+                            if (isError)
+                              Center(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 32),
+                                  child: Text(
+                                    state.failure.message,
+                                    style: AppStyles.body2Medium14(context)
+                                        .copyWith(
+                                      color: AppColors.error,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),
-                  )
-                else
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: insights.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 16),
-                      itemBuilder: (context, index) =>
-                          AiInsightCard(insight: insights[index]),
-                    ),
-                  ),
-                if (!isLoading) const AiDashboardAskAdvisorButton(),
-              ],
-            ),
+                    if (!isError)
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final int itemIndex = index ~/ 2;
+                              if (index.isEven) {
+                                return AiInsightCard(
+                                    insight: insights[itemIndex]);
+                              }
+                              return const SizedBox(height: 16);
+                            },
+                            childCount:
+                                insights.isEmpty ? 0 : insights.length * 2 - 1,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              if (!isLoading)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: AiDashboardAskAdvisorButton(),
+                ),
+            ],
           ),
         );
       },

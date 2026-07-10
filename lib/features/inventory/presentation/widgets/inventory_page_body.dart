@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_flow/features/inventory/domain/entities/inventory_item_list_entity.dart';
+import 'package:rest_flow/features/inventory/presentation/widgets/inventory_filter_chips.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../core/dummy_data/dummy_inventory_items.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/custom_sliver_app_bar.dart';
 import '../cubit/inventory_items/inventory_items_cubit.dart';
 import '../cubit/inventory_items/inventory_items_state.dart';
-import 'inventory_filter_chips.dart';
 import 'inventory_item_card.dart';
-import 'inventory_search_bar.dart';
+import 'inventory_sticky_header.dart';
 
 class InventoryPageBody extends StatefulWidget {
   const InventoryPageBody({super.key});
@@ -23,82 +26,60 @@ class _InventoryPageBodyState extends State<InventoryPageBody> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        const SliverAppBar(
-          title: Text(
-            'Inventory',
-            style: TextStyle(
-              color: AppColors.darkNavy,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-            ),
-          ),
-          backgroundColor: AppColors.backgroundLight,
-          elevation: 0,
-          floating: true,
-          iconTheme: IconThemeData(color: AppColors.darkNavy),
-        ),
+        const CustomSliverAppBar(title: 'Inventory'),
         SliverPersistentHeader(
           pinned: true,
-          delegate: _StickyHeaderDelegate(
+          delegate: InventoryStickyHeader(
             height: 152.0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Column(
-                children: [
-                  InventorySearchBar(
-                    onChanged: (query) {
-                      context
-                          .read<InventoryItemsCubit>()
-                          .fetchInventoryItems(search: query);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  InventoryFilterChips(
-                    selectedFilter: _selectedFilter,
-                    onFilterChanged: (filter) {
-                      setState(() {
-                        _selectedFilter = filter;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
+            selectedFilter: _selectedFilter,
+            onSearchChanged: (query) {
+              context
+                  .read<InventoryItemsCubit>()
+                  .fetchInventoryItems(search: query);
+            },
+            onFilterChanged: (filter) {
+              setState(() {
+                _selectedFilter = filter ?? InventoryFilter.all;
+              });
+            },
           ),
         ),
         BlocBuilder<InventoryItemsCubit, InventoryItemsState>(
           builder: (context, state) {
-            if (state is InventoryItemsLoading &&
-                state.action == InventoryItemsAction.fetchList) {
-              return const SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
-              );
-            } else if (state is InventoryItemsFailure &&
-                state.action == InventoryItemsAction.fetchList) {
+            final isLoading = state is InventoryItemsLoading &&
+                state.action == InventoryItemsAction.fetchList;
+            final isError = state is InventoryItemsFailure &&
+                state.action == InventoryItemsAction.fetchList;
+
+            final items = state is InventoryItemsListSuccess
+                ? _applyClientFilter(state.items)
+                : DummyInventoryItems.items;
+
+            if (isError) {
               return SliverFillRemaining(
                 child: Center(
                   child: Text(
-                    state.failure.message,
+                    (state as InventoryItemsFailure).failure.message,
                     style: const TextStyle(color: AppColors.error),
                   ),
                 ),
               );
-            } else if (state is InventoryItemsListSuccess) {
-              final filteredItems = _applyClientFilter(state.items);
+            }
 
-              if (filteredItems.isEmpty) {
-                return const SliverFillRemaining(
-                  child: Center(
-                    child: Text(
-                      'No inventory items found.',
-                      style: TextStyle(color: AppColors.mutedGray),
-                    ),
+            if (!isLoading && items.isEmpty) {
+              return const SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    'No inventory items found.',
+                    style: TextStyle(color: AppColors.mutedGray),
                   ),
-                );
-              }
+                ),
+              );
+            }
 
-              return SliverPadding(
+            return Skeletonizer.sliver(
+              enabled: isLoading,
+              child: SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
                     .copyWith(bottom: 80),
                 sliver: SliverList(
@@ -106,16 +87,14 @@ class _InventoryPageBodyState extends State<InventoryPageBody> {
                     (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
-                        child: InventoryItemCard(item: filteredItems[index]),
+                        child: InventoryItemCard(item: items[index]),
                       );
                     },
-                    childCount: filteredItems.length,
+                    childCount: items.length,
                   ),
                 ),
-              );
-            }
-
-            return const SliverToBoxAdapter(child: SizedBox.shrink());
+              ),
+            );
           },
         ),
       ],
@@ -137,29 +116,3 @@ class _InventoryPageBodyState extends State<InventoryPageBody> {
   }
 }
 
-class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-  final double height;
-
-  _StickyHeaderDelegate({required this.child, required this.height});
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: AppColors.backgroundLight,
-      child: child,
-    );
-  }
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  double get minExtent => height;
-
-  @override
-  bool shouldRebuild(covariant _StickyHeaderDelegate oldDelegate) {
-    return oldDelegate.height != height || oldDelegate.child != child;
-  }
-}

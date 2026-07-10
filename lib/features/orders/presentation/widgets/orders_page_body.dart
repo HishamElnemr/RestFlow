@@ -5,6 +5,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../core/dummy_data/dummy_orders.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';
+import '../../../../core/widgets/custom_sliver_app_bar.dart';
 import '../../domain/enums/order_status.dart';
 import '../../domain/enums/order_type.dart';
 import '../../domain/enums/payment_status.dart';
@@ -50,19 +51,9 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Orders',
-            style: AppStyles.heading3SemiBold18(context).copyWith(
-              color: AppColors.darkNavy,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          backgroundColor: AppColors.backgroundLight,
-          elevation: 0,
-          floating: true,
-          iconTheme: const IconThemeData(color: AppColors.darkNavy),
+        const CustomSliverAppBar(
+          title: 'Orders',
+          showBackButton: false,
         ),
         SliverPersistentHeader(
           pinned: true,
