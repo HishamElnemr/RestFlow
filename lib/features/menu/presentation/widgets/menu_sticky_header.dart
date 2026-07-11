@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/custom_filter_button.dart';
 import '../../../../core/widgets/custom_search_bar.dart';
 import '../../domain/entities/menu_category_list_entity.dart';
 import 'menu_category_tabs.dart';
@@ -11,11 +12,15 @@ class MenuStickyHeader extends StatelessWidget {
     required this.selectedCategory,
     required this.onCategoryChanged,
     required this.onSearchChanged,
+    required this.onFilterTap,
+    required this.hasActiveFilters,
   });
 
   final MenuCategoryListEntity? selectedCategory;
   final ValueChanged<MenuCategoryListEntity?> onCategoryChanged;
   final ValueChanged<String> onSearchChanged;
+  final VoidCallback onFilterTap;
+  final bool hasActiveFilters;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +29,20 @@ class MenuStickyHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         children: [
-          CustomSearchBar(
-            hintText: 'Search products...',
-            onChanged: onSearchChanged,
+          Row(
+            children: [
+              Expanded(
+                child: CustomSearchBar(
+                  hintText: 'Search products...',
+                  onChanged: onSearchChanged,
+                ),
+              ),
+              const SizedBox(width: 12),
+              CustomFilterButton(
+                onTap: onFilterTap,
+                hasActiveFilters: hasActiveFilters,
+              ),
+            ],
           ),
           const SizedBox(height: 12),
           MenuCategoryTabs(

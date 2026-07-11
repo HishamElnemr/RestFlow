@@ -7,13 +7,15 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../core/dummy_data/dummy_customers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';
+import '../../../../core/widgets/custom_filter_button.dart';
+import '../../../../core/widgets/custom_search_bar.dart';
 import '../../../../core/widgets/custom_sliver_app_bar.dart';
+import '../../../../core/widgets/filter_tabs_bar.dart';
 import '../../domain/entities/customer_status.dart';
 import '../cubit/customers/customers_cubit.dart';
 import '../cubit/customers/customers_state.dart';
 import 'customer_item_card.dart';
-import 'customers_filter_tabs.dart';
-import 'customers_search_bar.dart';
+import 'customers_filter_bottom_sheet.dart';
 
 class CustomersPageBody extends StatefulWidget {
   const CustomersPageBody({super.key});
@@ -26,6 +28,12 @@ class _CustomersPageBodyState extends State<CustomersPageBody> {
   CustomerStatus? _selectedStatus;
   String? _searchQuery;
   Timer? _debounce;
+
+  DateTime? _filterFromDate;
+  DateTime? _filterToDate;
+
+  bool get _hasActiveFilters =>
+      _filterFromDate != null || _filterToDate != null;
 
   @override
   void dispose() {
@@ -54,28 +62,62 @@ class _CustomersPageBodyState extends State<CustomersPageBody> {
       slivers: [
         const CustomSliverAppBar(
           title: 'Customers',
-          showBackButton: false,
+          showBackButton: true,
         ),
         SliverPersistentHeader(
           pinned: true,
           delegate: _CustomersStickyHeaderDelegate(
-            height: 140.0,
-            child: Padding(
+            height: 148.0,
+            child: Container(
+              color: AppColors.backgroundLight,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(
                 children: [
-                  CustomersSearchBar(
-                    onChanged: _onSearchChanged,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomSearchBar(
+                          hintText: 'Search customers...',
+                          onChanged: _onSearchChanged,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      CustomFilterButton(
+                        hasActiveFilters: _hasActiveFilters,
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => CustomersFilterBottomSheet(
+                              fromDate: _filterFromDate,
+                              toDate: _filterToDate,
+                              onApply: (fromDate, toDate) {
+                                setState(() {
+                                  _filterFromDate = fromDate;
+                                  _filterToDate = toDate;
+                                });
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
-                  CustomersFilterTabs(
-                    selectedStatus: _selectedStatus,
-                    onStatusChanged: (status) {
+                  FilterTabsBar<CustomerStatus?>(
+                    items: const [
+                      FilterTabItem(label: 'Active', value: CustomerStatus.active),
+                      FilterTabItem(label: 'Inactive', value: CustomerStatus.inactive),
+                    ],
+                    selectedValue: _selectedStatus,
+                    onChanged: (status) {
                       setState(() {
                         _selectedStatus = status;
                       });
                       _applyFilters();
                     },
+                    allLabel: 'All',
                   ),
                 ],
               ),
@@ -98,39 +140,62 @@ class _CustomersPageBodyState extends State<CustomersPageBody> {
                   ),
                 ),
               );
-            } else if (state is CustomersListSuccess) {
+            }
+
+            if (state is CustomersListSuccess) {
               displayCustomers = state.customers;
             }
 
+            // Apply local date filtering
+            if (!isLoading) {
+              displayCustomers = displayCustomers.where((c) {
+                if (_filterFromDate != null) {
+                  final from = DateTime(
+                    _filterFromDate!.year,
+                    _filterFromDate!.month,
+                    _filterFromDate!.day,
+                  );
+                  final created = DateTime(
+                    c.createdAt.year,
+                    c.createdAt.month,
+                    c.createdAt.day,
+                  );
+                  if (created.isBefore(from)) return false;
+                }
+                if (_filterToDate != null) {
+                  final to = DateTime(
+                    _filterToDate!.year,
+                    _filterToDate!.month,
+                    _filterToDate!.day,
+                  );
+                  final created = DateTime(
+                    c.createdAt.year,
+                    c.createdAt.month,
+                    c.createdAt.day,
+                  );
+                  if (created.isAfter(to)) return false;
+                }
+                return true;
+              }).toList();
+            }
+
             if (!isLoading && displayCustomers.isEmpty) {
-              return SliverFillRemaining(
+              return const SliverFillRemaining(
                 child: Center(
-                  child: Text(
-                    'No customers found.',
-                    style: AppStyles.body2Medium14(context).copyWith(
-                      color: AppColors.mutedGray,
-                    ),
-                  ),
+                  child: Text('No customers found.'),
                 ),
               );
             }
 
-            return Skeletonizer.sliver(
-              enabled: isLoading,
-              containersColor: Colors.grey.shade100,
-              ignoreContainers: false,
-              effect: ShimmerEffect(
-                baseColor: Colors.grey.shade200,
-                highlightColor: Colors.grey.shade50,
-              ),
-              child: SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-                    .copyWith(bottom: 80),
-                sliver: SliverList(
+            return SliverPadding(
+              padding: const EdgeInsets.all(16.0),
+              sliver: Skeletonizer.sliver(
+                enabled: isLoading,
+                child: SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.only(bottom: 12.0),
                         child: CustomerItemCard(customer: displayCustomers[index]),
                       );
                     },
@@ -147,18 +212,18 @@ class _CustomersPageBodyState extends State<CustomersPageBody> {
 }
 
 class _CustomersStickyHeaderDelegate extends SliverPersistentHeaderDelegate {
+  _CustomersStickyHeaderDelegate({
+    required this.child,
+    required this.height,
+  });
+
   final Widget child;
   final double height;
-
-  _CustomersStickyHeaderDelegate({required this.child, required this.height});
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: AppColors.backgroundLight,
-      child: child,
-    );
+    return SizedBox.expand(child: child);
   }
 
   @override

@@ -59,7 +59,7 @@ class _InventoryPageBodyState extends State<InventoryPageBody> {
               return SliverFillRemaining(
                 child: Center(
                   child: Text(
-                    (state as InventoryItemsFailure).failure.message,
+                    state.failure.message,
                     style: const TextStyle(color: AppColors.error),
                   ),
                 ),

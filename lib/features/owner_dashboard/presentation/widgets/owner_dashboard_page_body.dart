@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rest_flow/features/customers/presentation/pages/customers_page.dart';
+import 'package:rest_flow/features/products/presentation/pages/products_page.dart';
 
 import '../../../../core/routes/routes_name.dart';
 import 'dashboard_ai_insight_section.dart';
@@ -7,6 +9,7 @@ import 'owner_dashboard_header.dart';
 import 'quick_access_grid.dart';
 import 'recent_orders_list.dart';
 import 'revenue_card.dart';
+
 
 class OwnerDashboardPageBody extends StatelessWidget {
   const OwnerDashboardPageBody({super.key});
@@ -31,6 +34,12 @@ class OwnerDashboardPageBody extends StatelessWidget {
                 const RecentOrdersList(),
                 const SizedBox(height: 24),
                 QuickAccessGrid(
+                  onProductsTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductsPage()));
+                  },
+                  onCustomersTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const CustomersPage()));
+                  },
                   onInventoryTap: () {
                     Navigator.pushNamed(context, RoutesName.inventory);
                   },

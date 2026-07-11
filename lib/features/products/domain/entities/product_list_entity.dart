@@ -7,6 +7,7 @@ class ProductListEntity extends Equatable {
     required this.categoryName,
     required this.sellingPrice,
     required this.isAvailable,
+    this.imageUrl,
   });
 
   final String id;
@@ -14,6 +15,7 @@ class ProductListEntity extends Equatable {
   final String categoryName;
   final double sellingPrice;
   final bool isAvailable;
+  final String? imageUrl;
 
   @override
   List<Object?> get props => [
@@ -22,5 +24,6 @@ class ProductListEntity extends Equatable {
         categoryName,
         sellingPrice,
         isAvailable,
+        imageUrl,
       ];
 }

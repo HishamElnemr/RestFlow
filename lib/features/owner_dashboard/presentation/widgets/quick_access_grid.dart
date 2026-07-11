@@ -7,7 +7,7 @@ import 'quick_access_item_tile.dart';
 class QuickAccessGrid extends StatelessWidget {
   const QuickAccessGrid({
     super.key,
-    this.onOrdersTap,
+    this.onProductsTap,
     this.onMenuTap,
     this.onInventoryTap,
     this.onCustomersTap,
@@ -15,7 +15,7 @@ class QuickAccessGrid extends StatelessWidget {
     this.onReportsTap,
   });
 
-  final VoidCallback? onOrdersTap;
+  final VoidCallback? onProductsTap;
   final VoidCallback? onMenuTap;
   final VoidCallback? onInventoryTap;
   final VoidCallback? onCustomersTap;
@@ -26,10 +26,10 @@ class QuickAccessGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = [
       _QuickAccessData(
-        title: 'Orders',
-        svgPath: 'assets/images/onboarding2.svg',
+        title: 'Products',
+        icon: Icons.fastfood_outlined,
         color: AppColors.primary,
-        onTap: onOrdersTap,
+        onTap: onProductsTap,
       ),
       _QuickAccessData(
         title: 'Menu',

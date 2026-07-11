@@ -7,6 +7,7 @@ class ProductListModel extends ProductListEntity {
     required super.categoryName,
     required super.sellingPrice,
     required super.isAvailable,
+    super.imageUrl,
   });
 
   factory ProductListModel.fromJson(Map<String, dynamic> json) {
@@ -16,6 +17,7 @@ class ProductListModel extends ProductListEntity {
       categoryName: json['categoryName'] as String,
       sellingPrice: (json['sellingPrice'] as num).toDouble(),
       isAvailable: json['isAvailable'] as bool,
+      imageUrl: json['imageUrl'] as String?,
     );
   }
 }

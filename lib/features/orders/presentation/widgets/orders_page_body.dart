@@ -13,7 +13,7 @@ import '../cubit/orders_cubit.dart';
 import '../cubit/orders_state.dart';
 import 'order_item_card.dart';
 import 'orders_filter_bottom_sheet.dart';
-import 'orders_filter_button.dart';
+import '../../../../core/widgets/custom_filter_button.dart';
 import 'orders_filter_tabs.dart';
 import 'orders_search_bar.dart';
 
@@ -80,7 +80,7 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      OrdersFilterButton(
+                      CustomFilterButton(
                         hasActiveFilters: _hasActiveExtraFilters,
                         onTap: () {
                           showModalBottomSheet(

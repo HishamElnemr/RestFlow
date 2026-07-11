@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:readmore/readmore.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';
 
@@ -53,8 +54,20 @@ class AiInsightCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Text(
+                ReadMoreText(
                   insightText,
+                  trimLines: 4,
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: ' read more',
+                  trimExpandedText: ' show less',
+                  moreStyle: AppStyles.captionSemiBold12(context).copyWith(
+                    color: AppColors.purple,
+                    fontSize: 13,
+                  ),
+                  lessStyle: AppStyles.captionSemiBold12(context).copyWith(
+                    color: AppColors.purple,
+                    fontSize: 13,
+                  ),
                   style: AppStyles.captionSemiBold12(context).copyWith(
                     color: AppColors.darkNavy,
                     fontSize: 13,

@@ -5,6 +5,7 @@ import '../../../../core/widgets/custom_sliver_app_bar.dart';
 import '../../domain/entities/menu_category_list_entity.dart';
 import '../cubit/menu_categories/menu_categories_cubit.dart';
 import '../cubit/menu_products/menu_products_cubit.dart';
+import '../../../../features/products/presentation/widgets/products_filter_bottom_sheet.dart';
 import 'menu_product_grid.dart';
 import 'menu_sticky_header.dart';
 
@@ -17,6 +18,14 @@ class MenuPageBody extends StatefulWidget {
 
 class _MenuPageBodyState extends State<MenuPageBody> {
   MenuCategoryListEntity? _selectedCategory;
+  bool? _filterIsAvailable;
+  double? _filterMinPrice;
+  double? _filterMaxPrice;
+
+  bool get _hasActiveFilters =>
+      _filterIsAvailable != null ||
+      _filterMinPrice != null ||
+      _filterMaxPrice != null;
 
   @override
   void initState() {
@@ -39,12 +48,19 @@ class _MenuPageBodyState extends State<MenuPageBody> {
             height: 140.0,
             child: MenuStickyHeader(
               selectedCategory: _selectedCategory,
+              hasActiveFilters: _hasActiveFilters,
               onCategoryChanged: _onCategoryChanged,
               onSearchChanged: _onSearchChanged,
+              onFilterTap: _showFilterBottomSheet,
             ),
           ),
         ),
-        MenuProductGrid(selectedCategory: _selectedCategory),
+        MenuProductGrid(
+          selectedCategory: _selectedCategory,
+          filterIsAvailable: _filterIsAvailable,
+          filterMinPrice: _filterMinPrice,
+          filterMaxPrice: _filterMaxPrice,
+        ),
       ],
     );
   }
@@ -59,6 +75,28 @@ class _MenuPageBodyState extends State<MenuPageBody> {
           search: query,
           categoryId: _selectedCategory?.id,
         );
+  }
+
+  void _showFilterBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return ProductsFilterBottomSheet(
+          selectedIsAvailable: _filterIsAvailable,
+          minPrice: _filterMinPrice,
+          maxPrice: _filterMaxPrice,
+          onApply: (isAvailable, minPrice, maxPrice) {
+            setState(() {
+              _filterIsAvailable = isAvailable;
+              _filterMinPrice = minPrice;
+              _filterMaxPrice = maxPrice;
+            });
+          },
+        );
+      },
+    );
   }
 }
 
