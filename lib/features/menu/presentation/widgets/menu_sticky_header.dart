@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_flow/features/menu/presentation/cubit/menu_categories/menu_categories_cubit.dart';
+import 'package:rest_flow/features/menu/presentation/pages/edit_menu_category_page.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_filter_button.dart';
@@ -45,9 +48,52 @@ class MenuStickyHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          MenuCategoryTabs(
-            selectedCategory: selectedCategory,
-            onCategoryChanged: onCategoryChanged,
+          Row(
+            children: [
+              Expanded(
+                child: MenuCategoryTabs(
+                  selectedCategory: selectedCategory,
+                  onCategoryChanged: onCategoryChanged,
+                ),
+              ),
+              if (selectedCategory != null) ...[
+                const SizedBox(width: 8),
+                Material(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(
+                        MaterialPageRoute(
+                          builder: (_) => EditMenuCategoryPage(
+                            category: selectedCategory!,
+                          ),
+                        ),
+                      )
+                          .then((result) {
+                        if (result == true) {
+                          context.read<MenuCategoriesCubit>().fetchCategories();
+                        }
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.borderLight),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.edit_rounded,
+                        color: AppColors.electricBlue,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),

@@ -118,6 +118,7 @@ class _CustomersPageBodyState extends State<CustomersPageBody> {
                       _applyFilters();
                     },
                     allLabel: 'All',
+                    isExpanded: true,
                   ),
                 ],
               ),

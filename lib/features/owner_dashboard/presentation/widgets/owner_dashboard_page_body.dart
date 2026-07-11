@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rest_flow/features/customers/presentation/pages/customers_page.dart';
 import 'package:rest_flow/features/products/presentation/pages/products_page.dart';
+import 'package:rest_flow/features/employees/presentation/pages/employees_page.dart';
 
 import '../../../../core/routes/routes_name.dart';
 import 'dashboard_ai_insight_section.dart';
@@ -42,6 +43,9 @@ class OwnerDashboardPageBody extends StatelessWidget {
                   },
                   onInventoryTap: () {
                     Navigator.pushNamed(context, RoutesName.inventory);
+                  },
+                  onEmployeesTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const EmployeesPage()));
                   },
                 ),
                 const SizedBox(height: 20),

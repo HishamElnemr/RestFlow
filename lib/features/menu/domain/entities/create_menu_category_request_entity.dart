@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 
 class CreateMenuCategoryRequestEntity extends Equatable {
   const CreateMenuCategoryRequestEntity({
-    this.categoryName,
+    required this.categoryName,
     this.description,
     this.displayOrder,
   });
 
-  final String? categoryName;
+  final String categoryName;
   final String? description;
   final int? displayOrder;
 

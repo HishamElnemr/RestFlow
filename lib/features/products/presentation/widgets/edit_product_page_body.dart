@@ -14,6 +14,7 @@ import '../../../menu/presentation/cubit/menu_categories/menu_categories_state.d
 import '../cubit/products/products_cubit.dart';
 import '../cubit/products/products_state.dart';
 import 'product_form_fields.dart';
+import 'product_save_button.dart';
 
 class EditProductPageBody extends StatefulWidget {
   const EditProductPageBody({super.key, required this.productId});
@@ -175,47 +176,31 @@ class _EditProductPageBodyState extends State<EditProductPageBody> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: isSaving || !_isDataReady
-                          ? null
-                          : () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                log('[EditProductPageBody] Save pressed: name=$_name, price=$_price, categoryId=$_categoryId');
-                                final request = CreateProductRequestEntity(
-                                  productName: _name!,
-                                  categoryId: _categoryId!,
-                                  sellingPrice: _price!,
-                                  isAvailable: _isAvailable!,
-                                  imageUrl: _imageUrl,
-                                  ingredients: const [],
-                                );
-                                context
-                                    .read<ProductsCubit>()
-                                    .updateProduct(widget.productId, request);
-                              }
-                            },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.electricBlue,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: isSaving
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : const Text('Save Changes'),
-                    ),
+                  padding: const EdgeInsets.only(
+                    left: 24.0,
+                    right: 24.0,
+                    bottom: 32.0,
+                  ),
+                  child: ProductSaveButton(
+                    label: 'Save Changes',
+                    isLoading: isSaving,
+                    isDisabled: !_isDataReady,
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        log('[EditProductPageBody] Save pressed: name=$_name, price=$_price, categoryId=$_categoryId');
+                        final request = CreateProductRequestEntity(
+                          productName: _name!,
+                          categoryId: _categoryId!,
+                          sellingPrice: _price!,
+                          isAvailable: _isAvailable!,
+                          imageUrl: _imageUrl,
+                          ingredients: const [],
+                        );
+                        context
+                            .read<ProductsCubit>()
+                            .updateProduct(widget.productId, request);
+                      }
+                    },
                   ),
                 ),
               ],

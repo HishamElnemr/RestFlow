@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/app_styles.dart';
 import '../../../menu/domain/entities/menu_category_list_entity.dart';
+import 'product_availability_switch.dart';
+import 'product_category_dropdown.dart';
+import 'product_image_picker.dart';
+import 'product_text_field.dart';
 
 class ProductFormFields extends StatefulWidget {
   const ProductFormFields({
@@ -113,129 +116,71 @@ class _ProductFormFieldsState extends State<ProductFormFields> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Center(
-          child: GestureDetector(
-            onTap: _pickImage,
-            child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                color: AppColors.surfaceLight,
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.borderLight),
-                image: _selectedImageFile != null
-                    ? DecorationImage(
-                        image: FileImage(_selectedImageFile!),
-                        fit: BoxFit.cover,
-                      )
-                    : (widget.initialImageUrl != null && widget.initialImageUrl!.isNotEmpty)
-                        ? DecorationImage(
-                            image: NetworkImage(widget.initialImageUrl!),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
+        Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.darkNavy.withOpacity(0.04),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
               ),
-              child: (_selectedImageFile == null && (widget.initialImageUrl == null || widget.initialImageUrl!.isEmpty))
-                  ? const Icon(Icons.add_a_photo, color: AppColors.mutedGray, size: 40)
-                  : null,
-            ),
+            ],
           ),
-        ),
-        const SizedBox(height: 8),
-        Center(
-          child: Text('Tap to change image', style: AppStyles.captionRegular12(context).copyWith(color: AppColors.mutedGray)),
-        ),
-        const SizedBox(height: 24),
-        Text('Product Name', style: AppStyles.body1Medium16(context).copyWith(fontWeight: FontWeight.w500, color: AppColors.darkNavy)),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: _nameController,
-          onChanged: widget.onNameChanged,
-          decoration: InputDecoration(
-            hintText: 'Enter product name',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.borderLight),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.borderLight),
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ProductImagePicker(
+                onTap: _pickImage,
+                selectedImageFile: _selectedImageFile,
+                initialImageUrl: widget.initialImageUrl,
+              ),
+              const SizedBox(height: 32),
+              ProductTextField(
+                label: 'Product Name',
+                controller: _nameController,
+                onChanged: widget.onNameChanged,
+                hintText: 'Enter product name',
+                validator: (val) =>
+                    (val == null || val.isEmpty) ? 'Required' : null,
+              ),
+              const SizedBox(height: 20),
+              ProductCategoryDropdown(
+                categories: widget.categories,
+                selectedCategoryId: _selectedCategoryId,
+                onChanged: (val) {
+                  setState(() => _selectedCategoryId = val);
+                  widget.onCategoryChanged(val);
+                },
+              ),
+              const SizedBox(height: 20),
+              ProductTextField(
+                label: 'Price',
+                controller: _priceController,
+                onChanged: widget.onPriceChanged,
+                hintText: '0.00',
+                prefixText: '\$ ',
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                validator: (val) =>
+                    (val == null || val.isEmpty) ? 'Required' : null,
+              ),
+              const SizedBox(height: 20),
+              ProductAvailabilitySwitch(
+                isAvailable: _isAvailable,
+                onChanged: (val) {
+                  setState(() => _isAvailable = val);
+                  widget.onAvailabilityChanged(val);
+                },
+              ),
+            ],
           ),
-          validator: (val) => (val == null || val.isEmpty) ? 'Required' : null,
-        ),
-        const SizedBox(height: 16),
-        Text('Category', style: AppStyles.body1Medium16(context).copyWith(fontWeight: FontWeight.w500, color: AppColors.darkNavy)),
-        const SizedBox(height: 8),
-        DropdownButtonFormField<String>(
-          initialValue: _selectedCategoryId,
-          items: widget.categories.map((cat) {
-            return DropdownMenuItem<String>(
-              value: cat.id,
-              child: Text(cat.categoryName),
-            );
-          }).toList(),
-          onChanged: (val) {
-            setState(() {
-              _selectedCategoryId = val;
-            });
-            widget.onCategoryChanged(val);
-          },
-          decoration: InputDecoration(
-            hintText: 'Select a category',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.borderLight),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.borderLight),
-            ),
-          ),
-          validator: (val) => val == null ? 'Please select a category' : null,
-        ),
-        const SizedBox(height: 16),
-        Text('Price', style: AppStyles.body1Medium16(context).copyWith(fontWeight: FontWeight.w500, color: AppColors.darkNavy)),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: _priceController,
-          onChanged: widget.onPriceChanged,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: InputDecoration(
-            hintText: '0.00',
-            prefixText: '\$ ',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.borderLight),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.borderLight),
-            ),
-          ),
-          validator: (val) => (val == null || val.isEmpty) ? 'Required' : null,
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Available', style: AppStyles.body1Medium16(context).copyWith(fontWeight: FontWeight.w500, color: AppColors.darkNavy)),
-            Switch(
-              value: _isAvailable,
-              activeThumbColor: AppColors.electricBlue,
-              onChanged: (val) {
-                setState(() {
-                  _isAvailable = val;
-                });
-                widget.onAvailabilityChanged(val);
-              },
-            ),
-          ],
         ),
       ],
     );
   }
 }
-

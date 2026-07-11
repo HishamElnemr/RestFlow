@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rest_flow/features/customers/presentation/pages/customers_page.dart';
+import 'package:rest_flow/features/employees/presentation/pages/employees_page.dart';
 import 'package:rest_flow/features/settings/presentation/pages/notification_settings_page.dart';
 import 'package:rest_flow/features/settings/presentation/pages/user_profile_page.dart';
 import 'package:rest_flow/features/more/presentation/pages/restaurant_info_page.dart';
@@ -44,7 +45,13 @@ class MoreListSection extends StatelessWidget {
             icon: Icons.badge_outlined,
             iconColor: AppColors.amber,
             title: 'Employees',
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const EmployeesPage(),
+                ),
+              );
+            },
             showDivider: true,
           ),
           MoreListItem(

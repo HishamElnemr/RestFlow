@@ -2,7 +2,7 @@ import '../../domain/entities/create_menu_category_request_entity.dart';
 
 class CreateMenuCategoryRequestModel extends CreateMenuCategoryRequestEntity {
   const CreateMenuCategoryRequestModel({
-    super.categoryName,
+    required super.categoryName,
     super.description,
     super.displayOrder,
   });
@@ -18,8 +18,9 @@ class CreateMenuCategoryRequestModel extends CreateMenuCategoryRequestEntity {
   }
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (categoryName != null) map['categoryName'] = categoryName;
+    final map = <String, dynamic>{
+      'categoryName': categoryName,
+    };
     if (description != null) map['description'] = description;
     if (displayOrder != null) map['displayOrder'] = displayOrder;
     return map;

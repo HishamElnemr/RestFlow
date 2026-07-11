@@ -1,5 +1,3 @@
-/// Simple response returned by createProduct endpoint.
-/// Contains the newly created product's ID.
 class ProductCreationResponseModel {
   const ProductCreationResponseModel({required this.productId});
 

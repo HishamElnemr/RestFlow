@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rest_flow/features/inventory/presentation/widgets/inventory_filter_chips.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/custom_filter_button.dart';
 import '../../../../core/widgets/custom_search_bar.dart';
 import '../../../../core/widgets/filter_tabs_bar.dart';
 
@@ -11,12 +12,16 @@ class InventoryStickyHeader extends SliverPersistentHeaderDelegate {
     required this.selectedFilter,
     required this.onSearchChanged,
     required this.onFilterChanged,
+    required this.onFilterTap,
+    required this.hasActiveFilters,
   });
 
   final double height;
   final InventoryFilter selectedFilter;
   final ValueChanged<String> onSearchChanged;
   final ValueChanged<InventoryFilter?> onFilterChanged;
+  final VoidCallback onFilterTap;
+  final bool hasActiveFilters;
 
   @override
   Widget build(
@@ -27,9 +32,20 @@ class InventoryStickyHeader extends SliverPersistentHeaderDelegate {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
-            CustomSearchBar(
-              hintText: 'Search inventory...',
-              onChanged: onSearchChanged,
+            Row(
+              children: [
+                Expanded(
+                  child: CustomSearchBar(
+                    hintText: 'Search inventory...',
+                    onChanged: onSearchChanged,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                CustomFilterButton(
+                  onTap: onFilterTap,
+                  hasActiveFilters: hasActiveFilters,
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             FilterTabsBar<InventoryFilter>(

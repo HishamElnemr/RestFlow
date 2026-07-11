@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../../domain/entities/customer_entity.dart';
 import '../../domain/entities/customer_status.dart';
+import '../cubit/customers/customers_cubit.dart';
+import '../pages/edit_customer_page.dart';
 
 class CustomerItemCard extends StatelessWidget {
   final CustomerEntity customer;
@@ -56,21 +60,59 @@ class CustomerItemCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: statusBgColor,
-                  borderRadius: BorderRadius.circular(20),
+              Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: statusBgColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        isActive ? 'Active' : 'Inactive',
+                        style: AppStyles.captionBold12(context).copyWith(
+                          color: statusColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => EditCustomerPage(
+                              customerId: customer.id,
+                            ),
+                          ),
+                        ).then((result) {
+                          if (result == true && context.mounted) {
+                            context.read<CustomersCubit>().fetchCustomers();
+                          }
+                        });
+                      },
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.backgroundLight,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.warmGray,
+                            width: 1,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.edit_outlined,
+                          size: 16,
+                          color: AppColors.mutedGray,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text(
-                  isActive ? 'Active' : 'Inactive',
-                  style: AppStyles.captionBold12(context).copyWith(
-                    color: statusColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 16),

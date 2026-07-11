@@ -17,6 +17,9 @@ import '../../features/auth/presentation/cubit/auth_session/auth_session_cubit.d
 import '../../features/customers/data/repositories/customers_repository_impl.dart';
 import '../../features/customers/domain/repositories/customers_repository.dart';
 import '../../features/customers/presentation/cubit/customers/customers_cubit.dart';
+import '../../features/employees/data/repositories/employees_repository_impl.dart';
+import '../../features/employees/domain/repositories/employees_repository.dart';
+import '../../features/employees/presentation/cubit/employees_cubit.dart';
 import '../../features/inventory/data/repositories/inventory_repository_impl.dart';
 import '../../features/inventory/domain/repositories/inventory_repository.dart';
 import '../../features/inventory/presentation/cubit/inventory_categories/inventory_categories_cubit.dart';
@@ -41,6 +44,7 @@ import '../constants/api_constants.dart';
 import 'auth_api_service.dart';
 import 'auth_interceptor.dart';
 import 'customers_api_service.dart';
+import 'employees_api_service.dart';
 import 'inventory_api_service.dart';
 import 'menu_api_service.dart';
 import 'reports_api_service.dart';
@@ -91,6 +95,10 @@ void setupGetIt() {
     () => CustomersApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
 
+  getIt.registerLazySingleton<EmployeesApiService>(
+    () => EmployeesApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
+  );
+
   getIt.registerLazySingleton<InventoryApiService>(
     () => InventoryApiService(getIt<Dio>(), baseUrl: ApiConstants.baseUrl),
   );
@@ -125,6 +133,10 @@ void setupGetIt() {
 
   getIt.registerLazySingleton<CustomersRepository>(
     () => CustomersRepositoryImpl(apiService: getIt<CustomersApiService>()),
+  );
+
+  getIt.registerLazySingleton<EmployeesRepository>(
+    () => EmployeesRepositoryImpl(apiService: getIt<EmployeesApiService>()),
   );
 
   getIt.registerLazySingleton<InventoryRepository>(
@@ -181,6 +193,10 @@ void setupGetIt() {
 
   getIt.registerFactory<CustomersCubit>(
     () => CustomersCubit(getIt<CustomersRepository>()),
+  );
+
+  getIt.registerFactory<EmployeesCubit>(
+    () => EmployeesCubit(getIt<EmployeesRepository>()),
   );
 
   getIt.registerFactory<InventoryItemsCubit>(

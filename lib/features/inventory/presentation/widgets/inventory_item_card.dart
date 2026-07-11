@@ -5,9 +5,16 @@ import '../../../../core/theme/app_colors.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class InventoryItemCard extends StatelessWidget {
-  const InventoryItemCard({super.key, required this.item});
+  const InventoryItemCard({
+    super.key,
+    required this.item,
+    required this.onTap,
+    required this.onEdit,
+  });
 
   final InventoryItemListEntity item;
+  final VoidCallback onTap;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +38,18 @@ class InventoryItemCard extends StatelessWidget {
 
     final double totalValue = item.currentQuantity * item.costPerUnit;
 
-    return Container(
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.borderLight, width: 1.18),
-        ),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Container(
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.borderLight, width: 1.18),
+          ),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Container(
               decoration: BoxDecoration(
                 border: Border(
                   left: BorderSide(
@@ -99,7 +109,8 @@ class InventoryItemCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 8),
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -121,6 +132,24 @@ class InventoryItemCard extends StatelessWidget {
                                 color: AppColors.mutedGray,
                                 fontSize: 12,
                                 fontFamily: 'Inter',
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            InkWell(
+                              onTap: onEdit,
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.backgroundLight,
+                                  border: Border.all(color: AppColors.borderLight),
+                                ),
+                                child: const Icon(
+                                  Icons.edit_outlined,
+                                  size: 16,
+                                  color: AppColors.mutedGray,
+                                ),
                               ),
                             ),
                           ],
@@ -154,6 +183,7 @@ class InventoryItemCard extends StatelessWidget {
                   ],
                 ),
               ),
-            )));
+            ))),
+    );
   }
 }

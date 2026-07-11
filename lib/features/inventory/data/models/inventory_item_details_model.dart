@@ -4,6 +4,7 @@ import 'inventory_parsers.dart';
 class InventoryItemDetailsModel extends InventoryItemDetailsEntity {
   const InventoryItemDetailsModel({
     required super.id,
+    required super.categoryId,
     required super.itemName,
     required super.categoryName,
     required super.unitOfMeasure,
@@ -19,6 +20,7 @@ class InventoryItemDetailsModel extends InventoryItemDetailsEntity {
   ) {
     return InventoryItemDetailsModel(
       id: entity.id,
+      categoryId: entity.categoryId,
       itemName: entity.itemName,
       categoryName: entity.categoryName,
       unitOfMeasure: entity.unitOfMeasure,
@@ -33,6 +35,7 @@ class InventoryItemDetailsModel extends InventoryItemDetailsEntity {
   InventoryItemDetailsEntity toEntity() {
     return InventoryItemDetailsEntity(
       id: id,
+      categoryId: categoryId,
       itemName: itemName,
       categoryName: categoryName,
       unitOfMeasure: unitOfMeasure,
@@ -47,6 +50,7 @@ class InventoryItemDetailsModel extends InventoryItemDetailsEntity {
   factory InventoryItemDetailsModel.fromJson(Map<String, dynamic> json) {
     return InventoryItemDetailsModel(
       id: (json['id'] ?? '').toString(),
+      categoryId: (json['categoryId'] ?? '').toString(),
       itemName: (json['itemName'] ?? '').toString(),
       categoryName: (json['categoryName'] ?? '').toString(),
       unitOfMeasure: (json['unitOfMeasure'] ?? '').toString(),
@@ -60,6 +64,7 @@ class InventoryItemDetailsModel extends InventoryItemDetailsEntity {
 
   Map<String, dynamic> toJson() => {
     'id': id,
+    'categoryId': categoryId,
     'itemName': itemName,
     'categoryName': categoryName,
     'unitOfMeasure': unitOfMeasure,
