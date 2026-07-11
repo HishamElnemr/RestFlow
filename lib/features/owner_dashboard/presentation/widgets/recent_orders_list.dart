@@ -93,7 +93,7 @@ class RecentOrdersList extends StatelessWidget {
 
               var displayOrders = dummyOrders;
 
-              if (state is OrdersLoaded) {
+              if (state is OrdersListSuccess) {
                 displayOrders = state.orders;
               }
 

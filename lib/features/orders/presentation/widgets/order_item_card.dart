@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/order_list_entity.dart';
 import '../../domain/enums/order_status.dart';
 import '../../domain/enums/order_type.dart';
 import '../../domain/enums/payment_status.dart';
+import '../cubit/orders_cubit.dart';
+import '../pages/edit_order_page.dart';
 
 class OrderItemCard extends StatelessWidget {
   final OrderListEntity order;
@@ -59,14 +62,41 @@ class OrderItemCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Text(
-                '\$${order.totalAmount?.toStringAsFixed(2) ?? "0.00"}',
-                style: const TextStyle(
-                  color: AppColors.darkNavy,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Inter',
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '\$${order.totalAmount?.toStringAsFixed(2) ?? "0.00"}',
+                    style: const TextStyle(
+                      color: AppColors.darkNavy,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(),
+                      icon: const Icon(Icons.edit_outlined, color: AppColors.primary, size: 20),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => EditOrderPage(orderId: order.id),
+                          ),
+                        ).then((_) {
+                          context.read<OrdersCubit>().fetchOrders();
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

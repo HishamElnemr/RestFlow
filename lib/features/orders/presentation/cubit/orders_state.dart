@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import '../../domain/entities/order_list_entity.dart';
 import 'package:rest_flow/core/errors/app_failure.dart';
 
+enum OrdersAction { fetchList, fetchById, create, updateStatus, updatePaymentStatus }
+
 abstract class OrdersState extends Equatable {
   const OrdersState();
 
@@ -15,23 +17,47 @@ class OrdersInitial extends OrdersState {
 }
 
 class OrdersLoading extends OrdersState {
-  const OrdersLoading();
+  const OrdersLoading(this.action);
+
+  final OrdersAction action;
+
+  @override
+  List<Object?> get props => [action];
 }
 
-class OrdersLoaded extends OrdersState {
+class OrdersListSuccess extends OrdersState {
   final List<OrderListEntity> orders;
 
-  const OrdersLoaded(this.orders);
+  const OrdersListSuccess(this.orders);
 
   @override
   List<Object?> get props => [orders];
 }
 
-class OrdersError extends OrdersState {
-  final AppFailure failure;
+class OrderDetailsSuccess extends OrdersState {
+  final OrderListEntity order;
 
-  const OrdersError(this.failure);
+  const OrderDetailsSuccess(this.order);
 
   @override
-  List<Object?> get props => [failure];
+  List<Object?> get props => [order];
+}
+
+class OrdersActionSuccess extends OrdersState {
+  const OrdersActionSuccess(this.action);
+
+  final OrdersAction action;
+
+  @override
+  List<Object?> get props => [action];
+}
+
+class OrdersError extends OrdersState {
+  final AppFailure failure;
+  final OrdersAction action;
+
+  const OrdersError(this.failure, this.action);
+
+  @override
+  List<Object?> get props => [failure, action];
 }

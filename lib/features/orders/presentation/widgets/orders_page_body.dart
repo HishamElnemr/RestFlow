@@ -138,7 +138,7 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
                   ),
                 ),
               );
-            } else if (state is OrdersLoaded) {
+            } else if (state is OrdersListSuccess) {
               displayOrders = state.orders;
             }
 

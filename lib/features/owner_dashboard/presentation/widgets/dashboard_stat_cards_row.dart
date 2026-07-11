@@ -22,7 +22,7 @@ class DashboardStatCardsRow extends StatelessWidget {
           child: BlocBuilder<OrdersCubit, OrdersState>(
             builder: (context, state) {
               final isLoading = state is OrdersLoading;
-              final value = state is OrdersLoaded
+              final value = state is OrdersListSuccess
                   ? state.orders.length.toString()
                   : '100';
 
