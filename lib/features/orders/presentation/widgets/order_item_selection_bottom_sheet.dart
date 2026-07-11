@@ -103,7 +103,7 @@ class _OrderItemSelectionBottomSheetState
                 }
 
                 return DropdownButtonFormField<ProductListEntity>(
-                  value: _selectedProduct,
+                  initialValue: _selectedProduct,
                   onChanged: (value) {
                     setState(() {
                       _selectedProduct = value;

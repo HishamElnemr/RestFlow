@@ -136,7 +136,7 @@ class InventoryFormFields extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
-          value: selectedCategoryId,
+          initialValue: selectedCategoryId,
           onChanged: onCategoryChanged,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(

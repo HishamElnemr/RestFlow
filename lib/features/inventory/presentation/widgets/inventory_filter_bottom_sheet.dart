@@ -268,7 +268,7 @@ class _InventoryFilterBottomSheetState
                               side: const BorderSide(color: Colors.transparent),
                             ),
                           );
-                        }).toList(),
+                        }),
                       ],
                     ),
                   );

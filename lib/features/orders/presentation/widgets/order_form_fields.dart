@@ -55,7 +55,7 @@ class OrderFormFields extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
-          value: selectedCustomerId,
+          initialValue: selectedCustomerId,
           onChanged: onCustomerChanged,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(
@@ -130,7 +130,7 @@ class OrderFormFields extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<OrderType>(
-          value: selectedOrderType,
+          initialValue: selectedOrderType,
           onChanged: onOrderTypeChanged,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(

@@ -241,7 +241,7 @@ class _EditOrderPageBodyState extends State<EditOrderPageBody> {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<OrderStatus>(
-          value: _selectedOrderStatus,
+          initialValue: _selectedOrderStatus,
           onChanged: (value) {
             setState(() {
               _selectedOrderStatus = value;
@@ -270,7 +270,7 @@ class _EditOrderPageBodyState extends State<EditOrderPageBody> {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<PaymentStatus>(
-          value: _selectedPaymentStatus,
+          initialValue: _selectedPaymentStatus,
           onChanged: (value) {
             setState(() {
               _selectedPaymentStatus = value;
