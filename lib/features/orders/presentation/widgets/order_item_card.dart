@@ -100,17 +100,7 @@ class OrderItemCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          const Divider(color: AppColors.warmGray, height: 1.18),
-          const SizedBox(height: 12),
-          Text(
-            '${order.items.length} items',
-            style: const TextStyle(
-              color: AppColors.mutedGray,
-              fontSize: 12,
-              fontFamily: 'Inter',
-            ),
-          ),
+
         ],
       ),
     );
